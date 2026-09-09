@@ -1,9 +1,12 @@
+/* 구글 폰트 불러오기 - 이해포인트 아님, 그냥 이런 게 있다 정도만 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 * {
     box-sizing: border-box;
 }
 
 body {
-    font-family: -apple-system, "Helvetica Neue", "Apple SD Gothic Neo", "맑은 고딕", sans-serif;
+    font-family: 'Inter', -apple-system, "Apple SD Gothic Neo", "맑은 고딕", sans-serif;
     background-color: #ffffff;
     color: #1a1a1a;
     margin: 0;
@@ -16,7 +19,7 @@ body {
     padding: 40px 24px 80px;
 }
 
-/* 상단 네비게이션 */
+/* 네비게이션 */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -38,15 +41,31 @@ body {
     text-decoration: none;
     color: #444;
     font-size: 15px;
+    transition: color 0.2s ease;
 }
 
 .navbar .nav-links a:hover {
     color: #1a73e8;
 }
 
-/* Hero (첫 페이지) */
+/* Hero 영역: 사진 + 텍스트 나란히 배치 - 이해포인트 (Flexbox 응용) */
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 20px;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
 h1.hero-name {
-    font-size: 42px;
+    font-size: 40px;
     margin-bottom: 4px;
 }
 
@@ -54,7 +73,7 @@ h1.hero-name {
     color: #6b7a8f;
     font-size: 17px;
     margin-top: 0;
-    margin-bottom: 28px;
+    margin-bottom: 0;
 }
 
 .bio p {
@@ -62,7 +81,7 @@ h1.hero-name {
     margin-bottom: 16px;
 }
 
-/* 태그 필 */
+/* 태그 필 (소개 아래) */
 .tags {
     margin: 24px 0;
 }
@@ -91,6 +110,7 @@ h1.hero-name {
     font-size: 14px;
     margin-right: 10px;
     margin-bottom: 10px;
+    transition: opacity 0.2s ease, transform 0.15s ease;
 }
 
 .btn-primary {
@@ -105,6 +125,24 @@ h1.hero-name {
 
 .btn:hover {
     opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+/* Skills 섹션 - 아이콘 없이 텍스트 태그로 표현 */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.skill-item {
+    background-color: #eef4ff;
+    color: #1a54b0;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /* 상세 페이지 */
@@ -131,4 +169,28 @@ h2 {
 
 ul {
     padding-left: 20px;
+}
+
+/* 반응형 대응: 화면 폭이 600px 이하(모바일)일 때 - 이해포인트 */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .navbar .nav-links a {
+        margin-left: 0;
+        margin-right: 16px;
+    }
+
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    h1.hero-name {
+        font-size: 30px;
+    }
 }
