@@ -291,6 +291,14 @@ ul {
     border-radius: 10px;
     margin: 20px 0;
 }
+/* 세로형 사진 전용 - 너무 커지지 않도록 폭 제한 */
+.detail-photo-portrait {
+    max-width: 320px;
+    width: 100%;
+    border-radius: 10px;
+    margin: 20px auto;
+    display: block;
+}
 
 .info-box {
     background-color: #f7f9fb;
@@ -401,4 +409,18 @@ section:nth-of-type(even) {
 .contact-btn.secondary {
     background-color: #f1f3f5;
     color: #1a1a1a;
+}
+.icon-illustration {
+    background-color: #f7f9fb;
+    border-radius: 10px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.icon-illustration svg {
+    width: 120px;
+    height: 120px;
 }
