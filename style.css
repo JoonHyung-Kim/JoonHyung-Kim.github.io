@@ -1,7 +1,5 @@
 /* 구글 폰트 불러오기 - 이해포인트 아님, 그냥 이런 게 있다 정도만 */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-/* 부드러운 스크롤 - 이해포인트 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:wght@500;600&display=swap');
 html {
     scroll-behavior: smooth;
 }
@@ -32,9 +30,9 @@ body {
 }
 
 .container {
-    max-width: 780px;
+    max-width: 820px;
     margin: 0 auto;
-    padding: 40px 24px 80px;
+    padding: 60px 28px 100px;
 }
 
 /* 네비게이션 */
@@ -83,8 +81,12 @@ body {
 }
 
 h1.hero-name {
-    font-size: 40px;
-    margin-bottom: 4px;
+    font-family: 'Fraunces', serif;
+    font-size: 68px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+    line-height: 1.1;
 }
 
 .hero-role {
@@ -165,9 +167,11 @@ h1.hero-name {
 
 /* 상세 페이지 */
 h2 {
-    font-size: 22px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
     margin-top: 40px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .entry {
@@ -297,7 +301,7 @@ ul {
 }
 /* 섹션 간 확실한 여백 및 경계 구분 - 이해포인트 */
 section {
-    padding: 60px 0;
+    padding: 80px 0;
     scroll-margin-top: 80px;
 }
 
@@ -362,4 +366,39 @@ section:nth-of-type(even) {
 .timeline-title {
     font-weight: 700;
     font-size: 15px;
+}
+
+/* Contact 버튼 그룹 */
+.contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.contact-btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+.contact-btn.primary {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.contact-btn.secondary {
+    background-color: #f1f3f5;
+    color: #1a1a1a;
 }
