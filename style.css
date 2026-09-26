@@ -424,3 +424,13 @@ section:nth-of-type(even) {
     width: 120px;
     height: 120px;
 }
+
+.back-link {
+    font-size: 0.9rem;
+    color: #8a8578;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
