@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JoonHyung's Jeju Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    --ocean-deep: #0F3D3E;
+    --ocean: #17514F;
+    --tangerine: #E8791E;
+    --tangerine-soft: #F4B36B;
+    --basalt: #211F1D;
+    --sand: #FAF4E8;
+    --sand-dim: #F0E5CF;
+    --foam: #DCEFE9;
+    --ink: #1E2B2A;
+    --ink-dim: #5B6B69;
+
+    --bg: var(--sand);
+    --surface: #FFFFFF;
+    --surface-dim: var(--sand-dim);
+    --text: var(--ink);
+    --text-dim: var(--ink-dim);
+    --accent: var(--tangerine);
+    --accent-ink: #FFFFFF;
+    --border: #E3D8C0;
+    --shadow: 0 1px 2px rgba(33,31,29,0.06), 0 8px 24px rgba(33,31,29,0.06);
+
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1917;
+      --surface: #16302D;
+      --surface-dim: #123130;
+      --text: #EDE7D9;
+      --text-dim: #9FB3B0;
+      --border: #234845;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1917;
+    --surface: #16302D;
+    --surface-dim: #123130;
+    --text: #EDE7D9;
+    --text-dim: #9FB3B0;
+    --border: #234845;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .shell {
+    max-width: 520px;
+    margin: 0 auto;
+    min-height: 100%;
+    padding: 24px 20px calc(32px + env(safe-area-inset-bottom, 0px));
+    position: relative;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .top-badge {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--ocean-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .top-title { font-family: 'Gowun Batang', serif; font-weight: 700; font-size: 17px; letter-spacing: -0.2px; }
+  .top-sub { font-size: 12px; color: var(--text-dim); }
+
+  .screen { display: none; animation: rise 0.35s ease; }
+  .screen.active { display: block; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .hero-oreum { width: 100%; height: auto; display: block; margin-bottom: 4px; }
+
+  h1.display {
+    font-family: 'Gowun Batang', serif;
+    font-size: 30px;
+    line-height: 1.35;
+    font-weight: 700;
+    margin: 4px 0 12px;
+    color: var(--text);
+  }
+  p.lede {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-dim);
+    margin: 0 0 28px;
+    max-width: 34ch;
+  }
+
+  .btn {
+    appearance: none; border: none; cursor: pointer;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    border-radius: 14px;
+    padding: 15px 20px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); width: 100%; box-shadow: var(--shadow); }
+  .btn-ghost { background: transparent; color: var(--text-dim); padding: 10px 4px; }
+
+  .q-block { margin-bottom: 26px; }
+  .q-label { font-size: 13px; font-weight: 700; color: var(--ocean-deep); margin-bottom: 10px; }
+  :root[data-theme="dark"] .q-label, @media (prefers-color-scheme: dark) { }
+  .q-label { color: var(--tangerine); }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    appearance: none; cursor: pointer; font-family: inherit;
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text); border-radius: 999px; padding: 10px 16px;
+    font-size: 14px; font-weight: 500;
+    transition: all 0.15s ease;
+  }
+  .chip.selected { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .dir-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .dir-card {
+    border: 1.5px solid var(--border); background: var(--surface);
+    border-radius: 16px; padding: 18px 14px; text-align: left;
+    cursor: pointer; font-family: inherit;
+  }
+  .dir-card.selected { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); }
+  .dir-emoji { font-size: 26px; margin-bottom: 8px; display: block; }
+  .dir-name { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
+  .dir-desc { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
+
+  .nav-buttons { display: flex; gap: 10px; margin-top: 8px; }
+  .nav-buttons .btn-ghost { flex: 0 0 auto; }
+  .nav-buttons .btn-primary { flex: 1; }
+
+  .loading-wrap { text-align: center; padding: 60px 10px; }
+  .spinner { width: 40px; height: 40px; margin: 0 auto 18px; border-radius: 50%; border: 3px solid var(--border); border-top-color: var(--accent); animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-msg { font-size: 14px; color: var(--text-dim); }
+
+  .day-tabs { display: flex; gap: 6px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 2px; }
+  .day-tab {
+    flex: 0 0 auto; border: none; cursor: pointer; font-family: inherit;
+    background: var(--surface-dim); color: var(--text-dim);
+    border-radius: 10px; padding: 9px 16px; font-size: 13px; font-weight: 700;
+  }
+  .day-tab.active { background: var(--ocean-deep); color: #fff; }
+
+  .stop {
+    display: flex; gap: 12px; padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .stop:last-child { border-bottom: none; }
+  .stop-time { flex: 0 0 52px; font-size: 12px; color: var(--text-dim); font-weight: 700; padding-top: 2px; }
+  .stop-icon { flex: 0 0 30px; font-size: 18px; text-align: center; }
+  .stop-body { flex: 1; }
+  .stop-name { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
+  .stop-tag { display: inline-block; font-size: 10px; font-weight: 700; color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); border-radius: 5px; padding: 1px 6px; margin-bottom: 5px; }
+  .stop-note { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+  .lodging-box {
+    margin-top: 22px; padding: 16px; border-radius: 14px;
+    background: var(--ocean-deep); color: #fff;
+  }
+  .lodging-label { font-size: 11px; font-weight: 700; opacity: 0.75; margin-bottom: 4px; }
+  .lodging-name { font-weight: 700; font-size: 15px; }
+  .lodging-note { font-size: 12.5px; opacity: 0.85; margin-top: 4px; }
+
+  .result-actions { display: flex; gap: 10px; margin-top: 24px; }
+  .result-actions .btn { flex: 1; font-size: 13.5px; padding: 12px 14px; }
+  .btn-secondary { background: var(--surface-dim); color: var(--text); }
+
+  .error-box { text-align: center; padding: 40px 10px; color: var(--text-dim); font-size: 14px; }
+
+  .footer-note { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 40px; opacity: 0.7; }
+
+  .cand-card {
+    display: flex; align-items: flex-start; gap: 10px;
+    border: 1.5px solid var(--border); background: var(--surface);
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 8px;
+    cursor: pointer; text-align: left; width: 100%; font-family: inherit;
+  }
+  .cand-card.selected { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
+  .cand-check { flex: 0 0 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border); margin-top: 1px; display:flex; align-items:center; justify-content:center; font-size:13px; color:#fff; }
+  .cand-card.selected .cand-check { background: var(--accent); border-color: var(--accent); }
+  .cand-body { flex: 1; }
+  .cand-name-row { display: flex; align-items: center; gap: 6px; }
+  .cand-name { font-weight: 700; font-size: 14.5px; }
+  .cand-badge { font-size: 10px; font-weight: 700; color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); border-radius: 5px; padding: 1px 6px; }
+  .cand-note { font-size: 12.5px; color: var(--text-dim); margin-top: 3px; line-height: 1.4; }
+  .select-count-bar { position: sticky; top: 0; background: var(--bg); padding: 4px 0 10px; font-size: 12.5px; color: var(--text-dim); font-weight: 600; z-index: 5; }
+  .time-input {
+    width: 52px; border: none; background: transparent; color: var(--text-dim);
+    font-family: inherit; font-size: 12px; font-weight: 700; padding: 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .time-input:focus { outline: none; border-bottom-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="top-badge">🍊</div>
+    <div>
+      <div class="top-title">JoonHyung's Jeju Guide</div>
+      <div class="top-sub">직접 다녀본 제주 스팟들만 엄선했습니다</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 0: 랜딩 -->
+  <section class="screen active" data-screen="landing">
+    <svg class="hero-oreum" viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--tangerine-soft)" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="var(--tangerine-soft)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="500" height="160" fill="url(#sky)"/>
+      <path d="M0,140 C60,100 90,120 140,95 C190,70 220,110 270,90 C320,70 360,115 420,100 C460,90 480,105 500,95 L500,160 L0,160 Z" fill="var(--ocean)" opacity="0.9"/>
+      <path d="M0,150 C80,130 130,150 200,135 C270,120 330,145 400,132 C440,125 470,135 500,130 L500,160 L0,160 Z" fill="var(--ocean-deep)"/>
+      <circle cx="430" cy="35" r="18" fill="var(--tangerine)"/>
+    </svg>
+    <h1 class="display">JoonHyung's Jeju Guide</h1>
+    <p class="lede">인스타에 떠도는 맛집 말고, 직접 다녀본 곳들만 엄선했습니다. 차량, 인원, 일정을 선택하시면 최적의 코스를 만들어드립니다!</p>
+    <button class="btn btn-primary" onclick="goTo('step1')">코스 만들기 시작 →</button>
+    <button class="btn btn-ghost" style="width:100%; margin-top:8px;" onclick="goTo('quick')">⚡ 빠른 추천만 보기</button>
+    <div id="resumeBanner" style="display:none; margin-top:16px; border:1.5px solid var(--accent); border-radius:12px; padding:12px 14px;">
+      <div style="font-size:13px; font-weight:700; margin-bottom:2px;">📌 저장된 계획표가 있어요</div>
+      <div id="resumeInfo" style="font-size:12px; color:var(--text-dim); margin-bottom:8px;"></div>
+      <button class="btn btn-secondary" style="width:100%;" onclick="resumeSavedPlan()">이어서 보기</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: 빠른 추천 모드 -->
+  <section class="screen" data-screen="quick">
+    <p class="lede" style="margin-bottom:14px;">방향만 골라주세요. 우선순위 높은 곳들로 바로 추천해드릴게요.</p>
+    <div class="q-block">
+      <div class="q-label">어느 방향이 궁금하세요?</div>
+      <div class="chip-row" data-group="quickDir">
+        <button class="chip" data-value="동" onclick="quickPick('동')">동쪽</button>
+        <button class="chip" data-value="서" onclick="quickPick('서')">서쪽</button>
+        <button class="chip" data-value="남" onclick="quickPick('남')">남쪽</button>
+        <button class="chip" data-value="북" onclick="quickPick('북')">북쪽(제주시내)</button>
+      </div>
+    </div>
+    <div id="quickResults"></div>
+    <div class="nav-buttons">
+      <button class="btn btn-ghost" onclick="goTo('landing')">← 처음으로</button>
+      <button class="btn btn-primary" onclick="continueFromQuick()">제대로 계획표 짜기 →</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: 전체 일정 보기 / 공유 -->
+  <section class="screen" data-screen="overview">
+    <p class="lede" style="margin-bottom:14px;">전체 일정을 한눈에 보고, 텍스트로 복사해서 공유할 수 있어요.</p>
+    <div id="overviewContent"></div>
+    <div class="q-block" style="margin-top:18px;">
+      <div class="q-label">공유용 텍스트 (아래 박스를 탭해서 전체 선택 후 복사하세요)</div>
+      <textarea id="shareText" readonly style="width:100%; min-height:180px; border:1.5px solid var(--border); border-radius:10px; padding:10px; font-size:12.5px; font-family:inherit; background:var(--surface); color:var(--text);" onclick="this.select()"></textarea>
+      <button class="btn btn-secondary" style="width:100%; margin-top:8px;" onclick="copyShareText()">📋 클립보드에 복사 시도</button>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-ghost" onclick="goTo('plan')">← 계획표로</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 1: 조건 -->
+  <section class="screen" data-screen="step1">
+    <div class="q-block">
+      <div class="q-label">1. 차량이 있으신가요?</div>
+      <div class="chip-row" data-group="car">
+        <button class="chip" data-value="있음">🚗 있음</button>
+        <button class="chip" data-value="없음">🚌 없음 (뚜벅이)</button>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-label">2. 몇 명이서 여행하세요?</div>
+      <div class="chip-row" data-group="people">
+        <button class="chip" data-value="혼자">혼자</button>
+        <button class="chip" data-value="둘이">둘이</button>
+        <button class="chip" data-value="3~4명">3~4명</button>
+        <button class="chip" data-value="5명 이상">5명 이상</button>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-label">3. 몇 박 며칠 일정인가요?</div>
+      <div class="chip-row" data-group="nights">
+        <button class="chip" data-value="당일치기">당일치기</button>
+        <button class="chip" data-value="1박 2일">1박 2일</button>
+        <button class="chip" data-value="2박 3일">2박 3일</button>
+        <button class="chip" data-value="3박 4일">3박 4일</button>
+        <button class="chip" data-value="4박 5일 이상">4박 5일 이상</button>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-ghost" onclick="goTo('landing')">← 이전</button>
+      <button class="btn btn-primary" onclick="validateStep1()">다음 →</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: 방향 -->
+  <section class="screen" data-screen="step2">
+    <div class="q-block">
+      <div class="q-label">4. 어느 방향 위주로 다니고 싶으세요?</div>
+      <div class="dir-grid" data-group="direction">
+        <button class="dir-card" data-value="동">
+          <span class="dir-emoji">🌅</span>
+          <div class="dir-name">동쪽</div>
+          <div class="dir-desc">성산·구좌·조천 — 일출봉, 우도, 월정리</div>
+        </button>
+        <button class="dir-card" data-value="서">
+          <span class="dir-emoji">🌇</span>
+          <div class="dir-name">서쪽</div>
+          <div class="dir-desc">애월·한림 — 협재해변, 한담, 감성카페</div>
+        </button>
+        <button class="dir-card" data-value="남">
+          <span class="dir-emoji">🌊</span>
+          <div class="dir-name">남쪽</div>
+          <div class="dir-desc">중문·서귀포·안덕 — 폭포, 주상절리, 리조트</div>
+        </button>
+        <button class="dir-card" data-value="북">
+          <span class="dir-emoji">🏙️</span>
+          <div class="dir-name">북쪽</div>
+          <div class="dir-desc">제주시내 — 공항 근처, 동문시장</div>
+        </button>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-label">5. 어디에 더 무게를 둘까요? (선택, 복수 가능)</div>
+      <div class="chip-row" data-group="theme">
+        <button class="chip" data-value="맛집">🍽 맛집</button>
+        <button class="chip" data-value="카페">☕ 카페</button>
+        <button class="chip" data-value="자연/명소">🌿 자연·명소</button>
+        <button class="chip" data-value="여유롭게">🐌 여유롭게</button>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-ghost" onclick="goTo('step1')">← 이전</button>
+      <button class="btn btn-primary" onclick="validateStep2()">다음 →</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 2.5: 도착/출발 시간 -->
+  <section class="screen" data-screen="step3">
+    <div class="q-block">
+      <div class="q-label">6. 제주 도착은 몇 시쯤인가요?</div>
+      <div class="chip-row" data-group="arrival">
+        <button class="chip" data-value="9">~09시</button>
+        <button class="chip" data-value="10">10시</button>
+        <button class="chip" data-value="11">11시</button>
+        <button class="chip" data-value="12">12시</button>
+        <button class="chip" data-value="13">13시</button>
+        <button class="chip" data-value="14">14시</button>
+        <button class="chip" data-value="15">15시</button>
+        <button class="chip" data-value="16">16시 이후</button>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-label">7. 제주에서 출발(공항/항구)은 몇 시쯤인가요?</div>
+      <div class="chip-row" data-group="departure">
+        <button class="chip" data-value="12">~12시</button>
+        <button class="chip" data-value="14">14시</button>
+        <button class="chip" data-value="16">16시</button>
+        <button class="chip" data-value="18">18시</button>
+        <button class="chip" data-value="20">20시</button>
+        <button class="chip" data-value="22">21시 이후</button>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-ghost" onclick="goTo('step2')">← 이전</button>
+      <button class="btn btn-primary" onclick="validateStep3()">추천 스팟 보기 →</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 2.7: 추천 후 직접 선택 -->
+  <section class="screen" data-screen="select">
+    <p class="lede" style="margin-bottom:16px;">이 방향의 추천 스팟이에요. 메뉴·특징 보고 특별히 가고 싶은 곳은 즐겨찾기(⭐) 해두세요 — 안 골라도 우선순위 높은 곳부터 추천해드려요.</p>
+    <div class="day-tabs" id="selectTabs"></div>
+    <div id="selectList"></div>
+    <div class="nav-buttons">
+      <button class="btn btn-ghost" onclick="goTo('step3')">← 이전</button>
+      <button class="btn btn-primary" onclick="confirmSelectionAndBuild()">계획표 만들기 →</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: 내 계획표 (추천 동선 자동배치 + 자유 편집) -->
+  <section class="screen" data-screen="plan">
+    <p class="lede" style="margin-bottom:14px;">우선순위 높은 곳들로 추천 동선을 미리 짜봤어요. 시간은 직접 고쳐도 되고, 장소를 탭해서 다른 곳으로 바꾸거나 빼도 되고, 시간대를 더 추가해도 돼요.</p>
+    <div class="day-tabs" id="planTabs"></div>
+    <div id="planMap" style="margin-bottom:10px;"></div>
+    <div id="planSlots"></div>
+
+    <button class="btn btn-secondary" onclick="autoFillEmpty()" style="width:100%; margin-top:18px;">🧩 빈칸만 규칙기반으로 채우기</button>
+    <button class="btn btn-ghost" id="aiBtn" onclick="enhanceWithAI()" style="width:100%; justify-content:flex-start; padding:12px 4px; margin-top:6px;">✨ AI로 문구·빈칸 다듬기 (선택, Claude 로그인 필요)</button>
+    <button class="btn btn-secondary" onclick="renderOverview(); goTo('overview')" style="width:100%; margin-top:6px;">📋 전체 일정 보기 / 공유</button>
+
+    <div class="result-actions">
+      <button class="btn btn-secondary" onclick="goTo('select')">즐겨찾기 편집</button>
+      <button class="btn btn-primary" onclick="restartAll()">처음부터</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 5: 에러 -->
+  <section class="screen" data-screen="error">
+    <div class="error-box">
+      <p id="errorMsg">문제가 생겼어요.</p>
+      <button class="btn btn-primary" onclick="goTo('select')" style="margin-top:12px;">다시 시도하기</button>
+    </div>
+  </section>
+
+  <div class="footer-note">준형이 직접 다녀보고 저장한 제주 스팟 기반 · 개인 제작 프로젝트</div>
+</div>
+
+<script>
+const DATA = {"restaurants": [{"name": "범하다 어촌계 흑돼지", "region": "성산", "direction": "동", "category": "한식(예약)", "priority": null, "note": "오션뷰 노천 좌석, 사장님이 직접 구워주심, 전복볶음밥도 평 좋음", "rating": "4.4/5(5)", "menu": "흑돼지 구이+전복"}, {"name": "치저스", "region": "구좌", "direction": "동", "category": "양식", "priority": null, "note": "넷플릭스 소개 후 유명, 하루 정해진 인원만 예약제(7일전)", "rating": "4.5/5(348)", "menu": "라클렛 스테이크, 미트볼", "reservation": "필요"}, {"name": "산방산국수맛집", "region": "안덕", "direction": "남", "category": "국수", "priority": null, "note": "산방산 바로 옆, 국물 진하고 깔끔", "rating": "4.5/5(60)", "menu": "고기국수", "parking": "가능"}, {"name": "예원이네은갈치조림 제주 중문본점", "region": "중문", "direction": "남", "category": "해물,생선요리", "priority": null, "note": "현지인도 찾는 중문 로컬 맛집", "rating": "4.5/5(600)", "menu": "은갈치조림"}, {"name": "꽃돼지연탄구이", "region": "중문", "direction": "남", "category": "돼지고기구이", "priority": null, "note": "친절한 사장님이 운영하는 가성비 좋은 흑돼지집", "rating": "4.1/5(614)", "menu": "흑돼지 구이"}, {"name": "제주미담", "region": "제주시내", "direction": "북", "category": "한식", "priority": null, "note": "공항 30분, 웨이팅 있는 전통 고기국수", "rating": "4.3/5(772)", "menu": "고기국수, 순대"}, {"name": "골막식당", "region": "제주시내", "direction": "북", "category": "국수", "priority": null, "note": "새벽부터 영업하는 제주 대표 노포", "rating": "4.2/5(1138)", "menu": "접짝뼈국(돼지육수국수)"}, {"name": "사계의시간", "region": "안덕", "direction": "남", "category": "장어,먹장어요리", "priority": null, "note": "산방산·용머리해안 가는 길의 작고 조용한 식당", "rating": "4.4/5(430)", "menu": "장어덮밥/장어국", "parking": "협소"}, {"name": "은희네해장국", "region": "중문", "direction": "남", "category": "해장국", "priority": null, "note": "현지인 단골 많은 중문 로컬 해장국집", "rating": "4.1/5(655)", "menu": "해장국(선지+콩나물)"}, {"name": "돈어길 제주신화월드본점", "region": "대정", "direction": "남", "category": "돼지고기구이", "priority": null, "note": "신화월드 인근, 마늘밥이 시그니처로 유명", "rating": "4.9/5(1052)", "menu": "흑돼지 구이+마늘밥"}, {"name": "섭섭이네", "region": "구좌", "direction": "동", "category": "퓨전음식", "priority": null, "note": "지브리 음악 틀어주는 아늑한 로컬 식당, 네이버 예약(한국번호) 필요, 30석 내외", "rating": "4.2/5(342)", "menu": "흑돼지카레, 스테이크", "reservation": "필요"}, {"name": "제주해물밥", "region": "제주시내", "direction": "북", "category": "해물,생선요리", "priority": null, "note": "바로 앞이 바다인 오션뷰 식당, 사장님이 엄마처럼 따뜻함", "rating": "3.9/5(431)", "menu": "해물밥, 성게알밥"}, {"name": "모찌마루", "region": "제주시내", "direction": "북", "category": "카페,디저트", "priority": null, "note": "공항에서 도보 10분, 감귤·자몽 등 계절과일 모치", "rating": "4.5/5(6)", "menu": "생과일 모치"}, {"name": "중국집마씸", "region": "서귀포동지역", "direction": "남", "category": "중식당", "priority": null, "note": "현지인 비중 높은 로컬 중식당, 개방 주방이 깨끗하며 볶음밥도 평 좋음", "rating": "4.3/5(369)", "menu": "짜장면, 교자잡밥짜장면"}, {"name": "홍성방", "region": "대정", "direction": "남", "category": "중식당", "priority": null, "note": "모슬포항 로컬 중식당, 양 푸짐하고 가성비 좋음", "rating": "4.2/5(1108)", "menu": "짬뽕, 짜장면"}, {"name": "화로위 함덕흑돼지 보리짚불구이", "region": "조천", "direction": "동", "category": "돼지고기구이(예약)", "priority": null, "note": "넓은 매장, 공영주차장 인접. 목살 부위 평이 좋음", "rating": "4.7/5(484)", "menu": "흑돼지 구이, 된장찌개", "parking": "가능"}, {"name": "연돈", "region": "중문", "direction": "남", "category": "돈가스", "priority": "추천", "note": "방송 출연 후 유명해진 서울 출신 돈가스집, 바삭한 튀김옷이 특징. 웨이팅 긴 편이라 캐치테이블 현장등록(오전 8~10시) 추천", "rating": "인터넷 후기 종합 평가 호불호", "menu": "흑돼지 돈가스", "reservation": "가능(선택)"}, {"name": "애월감성", "region": "한림", "direction": "서", "category": "햄버거(예약)", "priority": null, "note": "한식에서 버거집으로 메뉴가 바뀐 것으로 보임, 방문 전 최신 정보 재확인 추천", "rating": "정보 부족(리뷰 1건)", "menu": "감성 크로켓버거(추정)"}, {"name": "우사미뷔페", "region": "대정", "direction": "남", "category": "뷔페", "priority": null, "note": "가족 단위 방문에 좋은 가성비 뷔페", "rating": "4.0/5(289)", "menu": "해산물+일식 뷔페"}, {"name": "피즈 애월", "region": "애월", "direction": "서", "category": "햄버거", "priority": null, "note": "바다 전망 좋은 버거집, 오픈이 15:30로 늦은 편(확인 필요)", "rating": "4.3/5(353)", "menu": "수제버거, 땅콩밀크쉐이크"}, {"name": "크라운돼지 제주점", "region": "애월", "direction": "서", "category": "돼지고기구이", "priority": null, "note": "넷플릭스 '흑백요리사' 출연 셰프가 운영, 제주 재래돼지 품종 사용, 리뷰에서 압도적으로 호평", "rating": "4.5/5(165)", "menu": "흑돼지 오겹살/목살", "reservation": "가능(선택)"}, {"name": "근쌀남", "region": "한림", "direction": "서", "category": "베트남음식", "priority": null, "note": "베트남 현지 맛에 가까운 작은 식당, 전날/이른 아침 예약 추천", "rating": "4.4/5(76)", "menu": "쌀국수(포)", "reservation": "가능(선택)"}, {"name": "꺼멍목장", "region": "중문", "direction": "남", "category": "돼지고기구이", "priority": null, "note": "셀프바 반찬 무료, 앞 카페에서 영수증 제시시 20% 할인", "rating": "5.0/5(377)", "menu": "흑돼지 구이"}, {"name": "소길국수", "region": "제주시내", "direction": "북", "category": "국수", "priority": null, "note": "지하 무료주차, 공항 인근이라 이른 아침 비행기 전 들르기 좋음", "rating": "4.9/5(919)", "menu": "고기국수", "parking": "가능"}, {"name": "제주황금콩밭", "region": "구좌", "direction": "동", "category": "한식", "priority": null, "note": "직접 재배한 콩으로 만든 담백한 맛, 작고 깨끗한 식당", "rating": "4.4/5(53)", "menu": "콩국수, 청국장"}, {"name": "넉둥베기", "region": "제주시내", "direction": "북", "category": "한식", "priority": null, "note": "진하고 크리미한 국물이 인상적인 돼지국밥 전문점", "rating": "4.3/5(323)", "menu": "접짝뼈탕"}, {"name": "오드랑베이커리 함덕점", "region": "조천", "direction": "동", "category": "베이커리", "priority": "추천", "note": "함덕해수욕장 근처 유럽풍 베이커리. 빵을 넉넉히 구워둬서 다른 인기 맛집에 비해 웨이팅이 적은 편", "menu": "마농바게트(마늘바게트)"}, {"name": "도톰 함덕점", "region": "조천", "direction": "동", "category": "생선회", "priority": null, "note": "함덕해변 근처 오션뷰, 조리 시간 걸려 미리 전화 주문 추천", "rating": "4.8/5(4, 참고용)", "menu": "모듬세트(회+무다리새우)", "reservation": "가능(선택)"}, {"name": "대춘해장국 중문점", "region": "중문", "direction": "남", "category": "해장국", "priority": null, "note": "중문관광단지 입구 해장국집, 아침 식사로 좋음", "rating": "4.2/5(48)", "menu": "해장국, 계탕", "parking": "가능"}, {"name": "한라전복 성산본점", "region": "성산", "direction": "동", "category": "전복요리", "priority": null, "note": "전복으로 유명한 단촐메뉴 맛집, 버터 넣은 돌솥밥이 시그니처", "rating": "4.5/5(289)", "menu": "전복돌솥밥, 전복구이"}, {"name": "미영이네", "region": "대정", "direction": "남", "category": "생선회", "priority": null, "note": null}, {"name": "협재온다정", "region": "한림", "direction": "서", "category": "한식", "priority": null, "note": "역사가옥을 개조한 분위기, 맑고 깔끔한 흑돼지곰탕 맛집", "rating": "4.2/5(322)", "menu": "흑돼지곰탕, 매운갈비"}, {"name": "명랑스낵", "region": "한림", "direction": "서", "category": "종합분식", "priority": null, "note": "한림공원 인근 관광객 필수 코스, 주말·성수기 웨이팅 길다, 가격대비 평가는 엇갈림", "rating": "3.5/5(839)", "menu": "흑돼지튀김+치즈, 떡볶이"}, {"name": "한거리푸줏간", "region": "구좌", "direction": "동", "category": "돼지고기구이", "priority": null, "note": "월정리의 조용한 동네 흑돼지집, 해수욕장 근처라 식사 후 산책 좋음", "rating": "4.3/5(77)", "menu": "흑돼지구이(돌판밥 즉석)"}, {"name": "월정리 갈비밥", "region": "구좌", "direction": "동", "category": "돼지고기구이", "priority": null, "note": "월정리해변 가까운 장소, 오징어정 밑반찬이 인기", "rating": "4.2/5(323)", "menu": "갈비밥, 전복, 해물탕"}, {"name": "강실장회포차", "region": "서귀포동지역", "direction": "남", "category": "생선회", "priority": null, "note": "포장 추천되는 가성비 회집, 포장마차 분위기", "rating": "4.3/5(71)", "menu": "모듬회, 매운탕"}, {"name": "산방식당", "region": "대정", "direction": "남", "category": "한식", "priority": null, "note": null}, {"name": "협재해물라면 쪼꼴락상회", "region": "한림", "direction": "서", "category": "라면", "priority": null, "note": "이면도로 안으로 들어가야 하는 숨은 맛집, 해산물이 풍부하고 국물이 진함", "rating": "4.3/5(165)", "menu": "해물라면, 고기라면", "parking": "가능"}, {"name": "큰돈가 남쪽대표 중문", "region": "중문", "direction": "남", "category": "육류,고기요리", "priority": null, "note": "롯데호텔 근처, 직원이 구워주며 소스 종류가 다양함, 미리 예약 추천", "rating": "4.5/5(501)", "menu": "흑백돼지 세트, 비빔국수", "reservation": "가능(선택)"}, {"name": "협재흑돼지 협재혼담", "region": "한림", "direction": "서", "category": "육류,고기요리(예약)", "priority": null, "note": null}, {"name": "협재솥", "region": "한림", "direction": "서", "category": "한정식", "priority": null, "note": null}, {"name": "만선식당", "region": "대정", "direction": "남", "category": "생선회", "priority": null, "note": null}, {"name": "미스터빠삭 제주외도점", "region": "제주시내", "direction": "북", "category": "돈가스", "priority": null, "note": "로봇이 음식을 가져다주는 독특한 컨셉, 영어 응대 가능", "rating": "4.3/5(80)", "menu": "치즈 돈가스"}, {"name": "항구식당", "region": "대정", "direction": "남", "category": "생선회", "priority": null, "note": "모슬포항 로컬 맛집, 현지인들도 많이 찾는 곳", "rating": "4.3/5(536)", "menu": "회(활어), 해산물"}, {"name": "말젯문", "region": "구좌", "direction": "동", "category": "한식", "priority": null, "note": "테이블 4개뿐인 작은 맛집, 재료와 소스의 독특한 조합이 인기 비결", "rating": "4.6/5(110)", "menu": "새우크림덮밥, 돔베고기"}, {"name": "협재수우동 협재점", "region": "한림", "direction": "서", "category": "일식당", "priority": null, "note": null}, {"name": "떡하니 문어떡볶이", "region": "구좌", "direction": "동", "category": "떡볶이", "priority": null, "note": "행원리 작은 마을 맛집, 주말엔 웨이팅 있음. 튀김도 함께 인기", "rating": "4.5/5(406)", "menu": "새우크림떡볶이, 돈까스떡볶이"}, {"name": "번네식당", "region": "안덕", "direction": "남", "category": "한식", "priority": null, "note": "가시리 로컬 맛집, 뼈없는 갈치조림이 시그니처로 먹기 편함. 오후 3시 마감, 오전 이른 방문 추천", "rating": "3.9/5(296)", "menu": "무뼈갈치조림"}, {"name": "천짓골식당", "region": "서귀포동지역", "direction": "남", "category": "향토음식", "priority": null, "note": "사장님이 직접 고기를 썰어주며 먹는 법을 설명해줌, 웨이팅 있는 현지 인기 식당", "rating": "4.3/5(865)", "menu": "수육(흑돼지·백돼지 삶은 고기)"}, {"name": "난드르바당", "region": "중문", "direction": "남", "category": "돼지고기구이", "priority": null, "note": "바다 전망이 뛰어난 야외 BBQ, 고양이도 있음. 물때 좋을 때 방문 추천", "rating": "4.6/5(917)", "menu": "흑돼지구이", "parking": "가능"}, {"name": "심바카레", "region": "애월", "direction": "서", "category": "카레", "priority": null, "note": "곽지해수욕장 근처 오션뷰, 가게 강아지(심바)가 유명함", "rating": "4.3/5(348)", "menu": "카레, 돈가스, 우동"}, {"name": "제주갈치도 협재 본점", "region": "한림", "direction": "서", "category": "해물,생선요리(예약)", "priority": null, "note": "바다 바로 옆, 뜻밖에 생선 발라주는 서비스. 돌솥밥도 평판 좋음", "rating": "4.2/5(56)", "menu": "갈치조림(통갈치 세트)"}, {"name": "어장군", "region": "제주시내", "direction": "북", "category": "해물,생선요리", "priority": null, "note": "신선한 해산물, 반찬 구성이 풍부한 한상차림 스타일", "rating": "3.9/5(332)", "menu": "해물탕, 생선구이", "parking": "가능(지하)"}, {"name": "검은여닭도가니", "region": "서귀포동지역", "direction": "남", "category": "닭요리", "priority": null, "note": null}, {"name": "온더스톤 브런치카페 제주성산점", "region": "성산", "direction": "동", "category": "브런치", "priority": null, "note": "2층에서 바다 보며 피아노 음악 듣는 분위기, 오조리해안 근처", "rating": "4.1/5(262)", "menu": "흑돼지버거, 브런치 플래터"}, {"name": "일억조", "region": "한림", "direction": "서", "category": "향토음식", "priority": null, "note": "제주 향토음식 전문, 이른 아침 해장국으로 추천, 전용주차장 없음", "rating": "4.3/5(86)", "menu": "접짝뼈국(포로 해장국)", "parking": "불가"}, {"name": "하이 하이볼", "region": "구좌", "direction": "동", "category": "바(BAR)", "priority": null, "note": "월정리의 아늑하고 친근한 술집, 사장님이 영어로 대화 가능", "rating": "4.8/5(16)", "menu": "하이볼(로즈마리 하이볼 인기)"}, {"name": "도우보이", "region": "구좌", "direction": "동", "category": "피자", "priority": null, "note": "밭 종류가 맞은 들판 뷰 피자집, 5명 이상 단체석 불가, 영업시간 짧음(목~일 11-3시)", "rating": "4.4/5(69)", "menu": "화덕피자(마가리타)"}, {"name": "스시마씸 월정", "region": "구좌", "direction": "동", "category": "일식당", "priority": null, "note": null}, {"name": "돈방석", "region": "대정", "direction": "남", "category": "생선회", "priority": null, "note": "전직 해녀 사장님이 운영, 반찬 퍼주식 서비스가 후하다는 평, 미영이네 대안으로 추천되는 곳", "rating": "4.4/5(249)", "menu": "고등어회"}, {"name": "놀맨", "region": "애월", "direction": "서", "category": "라면", "priority": null, "note": "한담해안 바로 옆, 사장님 1인이 직접 요리하는 '1인 밴드' 식당, 웨이팅은 감수해야 함", "rating": "3.7/5(672)", "menu": "해물라면(게+새우+조개)"}, {"name": "동백부엌", "region": "제주시내", "direction": "북", "category": "한식", "priority": null, "note": "공항 근처 2인 세트 맛집, 반찬 무제한 리필. 여행 첫날·마지막날 식사로 추천", "rating": "4.3/5(112)", "menu": "흑돼지찜, 조림, 백속밥"}, {"name": "각지불", "region": "조천", "direction": "동", "category": "아귀찜,해물찜", "priority": null, "note": "아귀찜(아그로)로 뚫이는 장어탕이 유명, 사장님이 친절하고 서비스로 관록도 줌", "rating": "4.4/5(430)", "menu": "아귀찜(매운탕)"}, {"name": "제주해조네보말성게전문점", "region": "안덕", "direction": "남", "category": "한식", "priority": null, "note": "안덕면 로컬 조식 맛집, 산방산·용머리해안 방문 전후로 들르기 좋음", "rating": "4.3/5(846)", "menu": "성게비빔밥, 보말칼국수"}, {"name": "자매국수", "region": "제주시내", "direction": "북", "category": "국수", "priority": "추천", "note": "제주공항 근처 고기국수 맛집. 사골 베이스 육수와 부드러운 돔베고기가 특징이며 담백하고 깔끔한 맛이라는 평. 인기가 많아 대기가 긴 편이라 캐치테이블 원격 줄서기가 사실상 필수.", "menu": "고기국수", "reservation": "가능(선택)"}, {"name": "오랑우탄면사무소", "region": "안덕", "direction": "남", "category": "아시아음식", "priority": null, "note": "메뉴가 단단면 단일이지만 매운맛 조절 가능, 반려동반 가능", "rating": "4.6/5(65)", "menu": "단단면(매운맛 조절 가능)"}, {"name": "솔지식당", "region": "제주시내", "direction": "북", "category": "한식", "priority": null, "note": "가오세트(목살+삼겹살) 인기, 김치찌개도 평판 좋음", "rating": "4.2/5(824)", "menu": "삼겹살, 가오세트"}, {"name": "벵디", "region": "조천", "direction": "동", "category": "한식", "priority": null, "note": "구좌에서 함덕으로 이전, 2층에서 바다 전망", "rating": "5.0/5(5, 참고용)", "menu": "문어+흑돼지, 미역밥"}, {"name": "성산포 자연산 회센타", "region": "성산", "direction": "동", "category": "생선회", "priority": null, "note": "오조리 인근 회센터, 테이블당 자리비 3000원(반찬포함) 발생", "rating": "3.9/5(195)", "menu": "모듬사시미, 단반라멘, 회", "parking": "가능"}, {"name": "치타치킨", "region": "제주시내", "direction": "북", "category": "치킨,닭강정", "priority": null, "note": "대기가 긴 인기 치킨집이지만, 리뷰수가 적고(3건) 최근 후기는 엇갈림 — 방문 전 최신 평가 확인 추천", "rating": "3.0/5(3, 참고용)", "menu": "크림치킨, 마늘치킨"}, {"name": "다래향 본점", "region": "조천", "direction": "동", "category": "중식당", "priority": null, "note": "2011년부터 오래 영업한 함덕 로컬 중식당", "rating": "4.1/5(146)", "menu": "짬뽕밥, 우니짜장"}, {"name": "단소 제주 애월본점", "region": "애월", "direction": "서", "category": "백반,가정식", "priority": null, "note": null}, {"name": "산지해장국 서귀포점", "region": "서귀포동지역", "direction": "남", "category": "해장국", "priority": null, "note": "강정동 로컬 해장국집, 어마어마한 대기가 줄어드는 이른 아침 방문 추천, 양탕 추천", "rating": "4.4/5(198)", "menu": "소고기해장국, 양해장국"}, {"name": "김녕빗소리", "region": "구좌", "direction": "동", "category": "일식당", "priority": null, "note": "감성적인 일식집, 웨이팅 있는 편", "rating": "4.5/5(104)", "menu": "소바, 튀김"}, {"name": "다정이네 올레시장 본점", "region": "서귀포동지역", "direction": "남", "category": "김밥", "priority": null, "note": "타카아웃 전문 김밥집, 키오스크 주문으로 빠른 회전율", "rating": "4.2/5(707)", "menu": "김밥(새우튀김·유부탕 인기)"}, {"name": "로맨틱새우 곽지해수욕장애월점", "region": "애월", "direction": "서", "category": "양식(예약)", "priority": null, "note": "곽지해수욕장 근처 이국적인 새우집, 하와이안 음료도 평 좋음", "rating": "4.5/5(476)", "menu": "갈릭새우, 코코넛새우, 크림새우파스타"}, {"name": "도민상회본점 제주한림협재흑돼지", "region": "한림", "direction": "서", "category": "돼지고기구이(예약)", "priority": null, "note": "한림 대표 흑돼지집 중 하나, 관광객에게 먹는 법을 친절하게 설명해줌", "rating": "4.4/5(715)", "menu": "흑돼지 구이"}, {"name": "흑돈쭐 제주성산일출봉점", "region": "성산", "direction": "동", "category": "돼지고기구이", "priority": null, "note": "성산일출봉 전망 좋은 고급스러운 나무운 맛집, 가격 대비 평가도 좋음", "rating": "5.0/5(18)", "menu": "흑돼지 구이"}, {"name": "오는정김밥", "region": "서귀포동지역", "direction": "남", "category": "한식", "priority": null, "note": "제주 최유명 김밥집, 튀김가루로 크런치 추가, 전화로 미리 주문하는 것 추천", "rating": "3.7/5(2003)", "menu": "김밥(튜나·오리지널 인기)", "reservation": "가능(선택)"}, {"name": "손사부", "region": "표선", "direction": "남", "category": "중식당", "priority": null, "note": "성읍민속마을 근처 중식당, 전 호텔 셰프 출신 사장님이 직접 요리", "rating": "4.1/5(19)", "menu": "삼선짬뽕, 탕수육"}, {"name": "고씨네천지국수 올레시장본점", "region": "서귀포동지역", "direction": "남", "category": "국수", "priority": null, "note": "올레시장 인근 국수집, 멸치육수 깔끔하고 가벼운 맛. 대기 적지만 줄서는 입장", "rating": "4.4/5(808)", "menu": "멸치국수"}, {"name": "초밥공장", "region": "구좌", "direction": "동", "category": "일식당(예약)", "priority": null, "note": "월정리 해변 도보 5분, 제주 어선으로 만든 신선한 초밥집", "rating": "4.7/5(44)", "menu": "오마카세 초밥, 가이센동"}, {"name": "상상 함덕점", "region": "조천", "direction": "동", "category": "이자카야", "priority": null, "note": "함덕해수욕장 근처 이자카야, 다양한 메뉴가 조화롭게 잘 나온다는 평. 회전이 빨라 오픈시간 따라 웨이팅 있음", "rating": "4.5/5(56)", "menu": "고등어봉스시, 흑돼지스키야키"}, {"name": "제주공항그때그집", "region": "제주시내", "direction": "북", "category": "돼지고기구이", "priority": null, "note": "공항 근처 호텔(White House) 인근, 직원이 상추로 연옥하는 법 설명해줌", "rating": "4.5/5(207)", "menu": "흑돼지구이"}, {"name": "중문흑돼지천국", "region": "중문", "direction": "남", "category": "돼지고기구이", "priority": null, "note": "정액제 25,000원으로 2시간 흑돼지+반찬 무제한 리필, 가성비 최강", "rating": "4.5/5(436)", "menu": "흑돼지 무제한 구이"}, {"name": "톰톰카레", "region": "구좌", "direction": "동", "category": "아시아음식", "priority": null, "note": "할랄·비건 친화적인 카레 전문점, 평대리 해안로 근처. 예약 추천", "rating": "4.4/5(410)", "menu": "할랄카레(채식)"}, {"name": "희신이네", "region": "서귀포동지역", "direction": "남", "category": "중식당", "priority": null, "note": "TV에 소개된 적 있는 로컬 맛집, 닭을 백숙한 이색 메뉴구성", "rating": "4.0/5(408)", "menu": "닭백숙탕, 짬뽕"}, {"name": "그초록", "region": "구좌", "direction": "동", "category": "카페,디저트", "priority": null, "note": "바닷가 앞 식물 가득한 뒹근한 카페, 사장님이 작은 선물을 챙겨주는 센스", "rating": "4.4/5(449)", "menu": "아보카도커피, 티라미수", "reservation": "가능(선택)"}, {"name": "바람", "region": "구좌", "direction": "동", "category": "카페,디저트", "priority": null, "note": null}, {"name": "커피냅로스터스 제주", "region": "애월", "direction": "서", "category": "카페,디저트", "priority": null, "note": "제주 전통 돌집을 개조한 공간, 자체 로스팅 원두 사용. 주차가 협소한 편", "rating": "4.5/5(145)", "menu": "핸드드립 커피, 크로와상"}, {"name": "쉬어갓", "region": "성산", "direction": "동", "category": "카페,디저트", "priority": null, "note": "넓은 정원과 바다 전망, 인스타 감성 카페", "rating": "4.6/5(152)", "menu": "제주 스무디, 사워도우빵"}, {"name": "르바게트", "region": "구좌", "direction": "동", "category": "베이커리", "priority": null, "note": "매일 구워 파는 프랑스식 베이커리, 친절한 직원들", "rating": "4.8/5(70)", "menu": "크로와상, 바게트, 플럼케이크"}, {"name": "허니문하우스", "region": "서귀포동지역", "direction": "남", "category": "카페,디저트", "priority": null, "note": "오션뷰 카페+레스토랑, 콜로니얼풍 건물", "rating": "4.5/5(1726)", "menu": "BLT샌드위치, 당근케이크"}, {"name": "팔즈", "region": "제주시내", "direction": "북", "category": "카페(호주식)", "priority": "추천", "note": "공항근처 호주식카페, 플랫화이트·바나나브레드, 화요일휴무"}, {"name": "해일리 카페", "region": "성산", "direction": "동", "category": "카페,디저트", "priority": null, "note": "성산 해안 뷰, 그네 포토존, 가운 무료대여", "rating": "4.6/5(220)", "menu": "빵+드링크"}, {"name": "집의기록상점", "region": "한림", "direction": "서", "category": "베이커리", "priority": null, "note": "실내석 없이 야외에서 바다뷰 즐기는 베이커리", "rating": "4.1/5(122)", "menu": "크로아상, 초코카넬레"}, {"name": "원앤온리", "region": "안덕", "direction": "남", "category": "카페,디저트", "priority": null, "note": "산방산+바다 뷰, 러쉬 매장 인접, 대기 30~40분", "rating": "4.2/5(3183)", "menu": "치킨, 로제파스타, 커피"}, {"name": "노을리", "region": "애월", "direction": "서", "category": "카페,디저트(예약)", "priority": null, "note": "애월 온실 컨셉, 베이커리+오션뷰(Cafe Noeully)", "rating": "4.4/5(680)", "menu": "온실형 빵+커피"}, {"name": "베티스베이크샵", "region": "제주시내", "direction": "북", "category": "카페,디저트", "priority": null, "note": "아라동 작은 동네 빵집, 트렌디 쿠키 취급", "rating": "4.5/5(2, 참고용)", "menu": "두바이초콜릿쿠키, 빵"}, {"name": "슬로보트", "region": "애월", "direction": "서", "category": "카페,디저트", "priority": null, "note": "오션뷰, 고양이 있음", "rating": "4.6/5(248)", "menu": "자체로스팅 원두 커피"}, {"name": "커피템플", "region": "제주시내", "direction": "북", "category": "카페", "priority": null, "note": "농장 속 야외석, 반맛집 개조 공간", "rating": "4.5/5(472)", "menu": "시그니처 블렌드 커피"}, {"name": "고산의 낮, 고산의 밤", "region": "한림", "direction": "서", "category": "LP카페", "priority": null, "note": "한경면 한적한 위치, 위스키 다양한 술집 분위기", "rating": "4.7/5(3, 참고용)", "menu": "위스키/칵테일", "subcategory": "LP카페"}, {"name": "오늘은녹차한잔", "region": "표선", "direction": "남", "category": "카페,디저트(예약)", "priority": null, "note": "녹차밭+동굴 산책, 카팅도 가능", "rating": "4.2/5(524)", "menu": "녹차아이스크림, 족욕"}, {"name": "델문도 김녕점", "region": "구좌", "direction": "동", "category": "카페,디저트", "priority": null, "note": "풍차+바다 뷰, 2·3층 오션뷰", "rating": "4.2/5(267)", "menu": "커피/베이커리"}, {"name": "미쁜제과", "region": "대정", "direction": "남", "category": "베이커리", "priority": null, "note": "한옥 형태 대형 베이커리, 정원+그네+투호놀이", "rating": "4.2/5(2101)", "menu": "빵(소금빵,가늘빵 등)"}, {"name": "위이", "region": "안덕", "direction": "남", "category": "카페,디저트", "priority": null, "note": "인기 브런치 카페, 전망 좋음", "rating": "4.2/5(177)", "menu": "브런치(프렌치토스트)"}, {"name": "테라도스", "region": "애월", "direction": "서", "category": "카페,디저트", "priority": null, "note": "고양이 있는 한적한 카페", "rating": "3.9/5(128)", "menu": "카스텔라, 밀크티"}, {"name": "무로이", "region": "안덕", "direction": "남", "category": "카페,디저트", "priority": null, "note": "넓치는 정원, 조용하고 여유로운 분위기", "rating": "4.2/5(282)", "menu": "티라미수, 에그타르트"}, {"name": "아줄레주", "region": "성산", "direction": "동", "category": "카페,디저트", "priority": null, "note": "에그타르트로 유명, 2026년 7월부터 잠정휴무 공지(기존 메모 참조)", "rating": "4.3/5(486)", "menu": "에그타르트로 유명"}, {"name": "하라케케", "region": "서귀포동지역", "direction": "남", "category": "카페,디저트", "priority": null, "note": "수영장+오션뷰, 게스트하우스 겸 카페", "rating": "4.7/5(251)", "menu": "게스트하우스 겸 카페"}, {"name": "베이커블", "region": "제주시내", "direction": "북", "category": "베이커리", "priority": null, "note": "주거지역 숨은 에그타르트 맛집, 추가맛 없음", "rating": "4.4/5(53)", "menu": "에그타르트(포장전문)"}, {"name": "카페구할구 제주", "region": "구좌", "direction": "동", "category": "카페,디저트", "priority": null, "note": "사진 예쁜 3개 공간의 카페, 고양이 있음, 인당 1음료 필수", "rating": "4.4/5(19)", "menu": "시그니처커피, 마차마차"}, {"name": "제주오션뷰카페 마녀의언덕", "region": "중문", "direction": "남", "category": "브런치카페(예약)", "priority": null, "note": "높은 천장+바다뷰, 길고양이 챙겨주는 카페", "rating": "4.9/5(41)", "menu": "마차라떼, 브런치"}, {"name": "프릳츠 제주성산점", "region": "성산", "direction": "동", "category": "카페,디저트", "priority": null, "note": "유명 프릳츠커피 성산점, 일출봉 뷰", "rating": "4.6/5(362)", "menu": "로스팅원두, 베이커리"}, {"name": "야원", "region": "조천", "direction": "동", "category": "카페,디저트", "priority": null, "note": "한옥 전통찻집, 좌석+정원 뷰", "rating": "4.7/5(105)", "menu": "오미자떡, 참기름차"}, {"name": "하소로커피", "region": "한림", "direction": "서", "category": "카페,디저트", "priority": null, "note": "자체 로스팅 공장, 고양이 있음", "rating": "4.6/5(330)", "menu": "드립커피, 원두"}, {"name": "카페 치즈태비", "region": "구좌", "direction": "동", "category": "카페,디저트", "priority": null, "note": "행원리 위치는 확인되나 Google 리뷰/평점 데이터가 없음 — 방문 전 네이버지도로 최신 정보 확인 추천"}, {"name": "수마", "region": "성산", "direction": "동", "category": "카페,디저트", "priority": null, "note": "성산일출봉 근처 작은 카페, 1인 1음료 필수", "rating": "4.6/5(209)", "menu": "써머라떼, 스콘"}, {"name": "3인칭관찰자시점", "region": "한림", "direction": "서", "category": "카페,디저트", "priority": null, "note": "한경면 조용한 동네, 고양이+카페겸 소품샵", "rating": "4.5/5(109)", "menu": "커피, 소품샵"}, {"name": "서귀피안 베이커리", "region": "성산", "direction": "동", "category": "베이커리", "priority": null, "note": "성산 오션뷰 유명 베이커리, 흘글+그네 근처", "rating": "4.7/5(1568)", "menu": "피스타치오크로와상, 토마토맛베이글"}, {"name": "ttt COFFEE", "region": "성산", "direction": "동", "category": "카페,디저트", "priority": null, "note": "플레이스캠프호텔 단지 내, 주변 스타벅스보다 추천", "rating": "5.0/5(1, 참고용)", "menu": "커피"}, {"name": "리버브제주", "region": "한림", "direction": "서", "category": "LP카페", "priority": null, "note": "바이닐 레코드 감상 컨셉, 주차가 매우 좁음(후기 주의)", "rating": "3.4/5(5, 참고용)", "menu": "드립커피, LP감상", "subcategory": "LP카페"}, {"name": "카페 귤꽃다락", "region": "서귀포동지역", "direction": "남", "category": "카페,디저트", "priority": null, "note": "귤밭 배경의 인스타 명소, 다만 웨이팅+인파 많음", "rating": "4.4/5(430)", "menu": "귤라떼, 귤양갱"}, {"name": "롱리브", "region": "제주시내", "direction": "북", "category": "카페", "priority": null, "note": "제주 최고 커피 중 하나로 평가받는 아늑한 카페", "rating": "4.5/5(99)", "menu": "피스타치오치즈케이크"}, {"name": "해지개", "region": "애월", "direction": "서", "category": "카페,디저트", "priority": null, "note": "풍차+바다 뷰, 빵 일찍 매진되니 일찍 방문 추천", "rating": "4.8/5(2334)", "menu": "소금빵, 흑깨라떼만"}, {"name": "성산해나", "region": "성산", "direction": "동", "category": "카페,디저트", "priority": null, "note": "복고풍 인테리어, 바다뷰는 없음지만 가격 좋음", "rating": "4.9/5(160)", "menu": "에그타르트, 펌킨타르트"}, {"name": "오늘도화창", "region": "구좌", "direction": "동", "category": "카페,디저트", "priority": null, "note": "사장님이 친절하고 섬세한 데코레이션, 자체재배 포도로 스무디", "rating": "4.9/5(355)", "menu": "당근케이크, 한라봉소르베"}, {"name": "마노르블랑", "region": "안덕", "direction": "남", "category": "식물원,수목원", "priority": null, "note": "입장료 있는 정원형 카페, 차 필수(산길 있음)", "rating": "4.0/5(2319)", "menu": "계절꽃(핑크뮬리 등) 관람장+커피", "parking": "가능"}, {"name": "월간레코드", "region": "성산", "direction": "동", "category": "LP카페", "priority": null, "note": "개인 레코드플레이어로 음악 직접 듣는 독특한 컨셉, 오션뷰", "rating": "5.0/5(9, 참고용)", "menu": "커피(바이닐 감상)", "subcategory": "LP카페"}, {"name": "더클리프", "region": "중문", "direction": "남", "category": "카페,디저트", "priority": null, "note": "중문 해안절벽 위 풀파티 느낌 라운지 카페, 야간 24시까지 영업", "rating": "4.2/5(3351)", "menu": "카페/라운지바"}, {"name": "레이오버", "region": "구좌", "direction": "동", "category": "카페,디저트", "priority": null, "note": "오션뷰+음악, 스타벅스보다 조금 비싼 편", "rating": "4.7/5(102)", "menu": "커피"}, {"name": "이재모피자 제주점", "region": "제주시내", "direction": "북", "category": "피자", "priority": "추천", "note": "부산 유명브랜드, 제주점은 웨이팅 적음"}, {"name": "논짓물", "region": "제주시내", "direction": "북", "category": "해물,갈치조림", "priority": "선택", "note": "맛 평가 엇갈림, 방문 전 최신후기 확인 추천"}, {"name": "명물식당", "region": "제주시내", "direction": "북", "category": "해물,생선요리", "priority": "필수", "note": "객주리조림 원조 20년 노포"}, {"name": "해녀의부엌 북촌점", "region": "조천", "direction": "동", "category": "해녀공연+다이닝(체험형)", "priority": "필수", "note": "해녀 공연+다이닝, 사전예약 필수"}, {"name": "숙성도", "region": "서귀포동지역", "direction": "남", "category": "돼지고기구이(숙성회)", "priority": "필수", "note": "드라이에이징 30일 흑돼지, 960뼈등심 시그니처"}, {"name": "물꼬 해녀의집", "region": "성산", "direction": "동", "category": "해물,보말칼국수", "priority": "추천", "note": "우도 내 해녀집, 보말칼국수"}, {"name": "가시아방국수", "region": "성산", "direction": "동", "category": "국수,돔베고기", "priority": "추천", "note": "고기국수·돔베고기·아강발"}, {"name": "도토리키친", "region": "제주시내", "direction": "북", "category": "국수(소바)", "priority": "필수", "note": "귤껍질 우린 육수를 쓴 시그니처 청귤소바가 대표메뉴, 두부튀김말이·감자고로케도 평이 좋음. 인기 많아 웨이팅 1시간 가까이 걸릴 수 있어 오픈런(11시) 추천.", "menu": "청귤소바, 채식소바", "rating": "4.4/5(745)"}, {"name": "소금바치순이네", "region": "구좌", "direction": "동", "category": "한식,해물", "priority": "필수", "note": "종달리 염전마을의 로컬 노포, 돌문어볶음이 대표메뉴(매콤달달, 소면과 찰떡). 고등어구이·갈치조림·보말국까지 곁들인 한상차림 세트로도 인기. 현지인 손님이 많아 붐빔.", "menu": "돌문어볶음, 한상차림 세트", "rating": "4.3/5(1237)"}], "places": [{"name": "호텔시리우스제주", "region": "제주시내", "direction": "북", "category": "숙소", "subcategory": "4성급 호텔", "priority": "필수", "note": "오션뷰, 공항인접", "rating": "9.2/10 (2589명, Yeogi)"}, {"name": "탐라스테이 호텔", "region": "제주시내", "direction": "북", "category": "숙소", "subcategory": "4성급 호텔", "priority": "추천", "note": "실속형 호텔", "rating": "9.0/10 (1035명, Yeogi)"}, {"name": "제주 팔레스호텔", "region": "제주시내", "direction": "북", "category": "숙소", "subcategory": "3성급 호텔", "priority": "추천", "note": "공항 가까운 가성비 호텔", "rating": "8.2/10 (1318명, Yeogi)"}, {"name": "롯데호텔 제주", "region": "중문", "direction": "남", "category": "숙소", "subcategory": "특급호텔", "priority": "추천", "note": "중문관광단지 대표 특급호텔", "rating": null}, {"name": "용두암", "region": "제주시내", "direction": "북", "category": "자연명소", "subcategory": "해안기암", "priority": "추천", "note": "용 승천 모습 바위, 공항인접", "rating": null}, {"name": "오설록 티뮤지엄", "region": "안덕", "direction": "남", "category": "체험·관광", "subcategory": "차 박물관,녹차밭", "priority": "추천", "note": "녹차밭뷰, 티카페", "rating": null}, {"name": "한담해안산책로", "region": "애월", "direction": "서", "category": "자연명소", "subcategory": "해안산책로,카페거리", "priority": "추천", "note": "곽지~애월 해안산책로, 카페 밀집", "rating": null}, {"name": "여미지식물원", "region": "중문", "direction": "남", "category": "체험·관광", "subcategory": "식물원", "priority": "선택", "note": "동양 최대급 실내식물원", "rating": null}, {"name": "금능해수욕장", "region": "한림", "direction": "서", "category": "자연명소", "subcategory": "해변", "priority": "추천", "note": "협재 옆, 한적하고 얕은 수심", "rating": null}, {"name": "해비치 리조트", "region": "표선", "direction": "남", "category": "숙소", "subcategory": "리조트", "priority": "추천", "note": "표선해변 인접 리조트", "rating": null}, {"name": "카멜리아힐", "region": "안덕", "direction": "남", "category": "체험·관광", "subcategory": "동백수목원", "priority": "추천", "note": "동백꽃 정원, 사진명소", "rating": null}, {"name": "월정리해변", "region": "구좌", "direction": "동", "category": "자연명소", "subcategory": "해변,카페거리", "priority": "필수", "note": "에메랄드빛 해변+카페거리", "rating": null}, {"name": "산굼부리", "region": "조천", "direction": "동", "category": "자연명소", "subcategory": "분화구,억새평원", "priority": "추천", "note": "마르형 분화구, 가을 억새", "rating": null}, {"name": "한림공원", "region": "한림", "direction": "서", "category": "체험·관광", "subcategory": "아열대식물원,동굴", "priority": "추천", "note": "아열대식물원+용암동굴", "rating": null}, {"name": "제주신화월드", "region": "안덕", "direction": "남", "category": "숙소", "subcategory": "복합리조트", "priority": "추천", "note": "호텔+테마파크+워터파크", "rating": null}, {"name": "그랜드조선 제주", "region": "중문", "direction": "남", "category": "숙소", "subcategory": "특급호텔", "priority": "추천", "note": "중문해안절벽 오션뷰 호텔", "rating": null}, {"name": "광치기해변", "region": "성산", "direction": "동", "category": "자연명소", "subcategory": "해변", "priority": "추천", "note": "올레1코스 종점, 일출봉 조망", "rating": null}, {"name": "섭지코지", "region": "성산", "direction": "동", "category": "체험·관광", "subcategory": "해안 산책", "priority": "추천", "note": "드라마 촬영지, 잔디밭+등대", "rating": null}, {"name": "성산일출봉", "region": "성산", "direction": "동", "category": "체험·관광", "subcategory": "자연명소(세계자연유산)", "priority": "필수", "note": "제주 대표 일출명소", "rating": null}, {"name": "우도", "region": "성산", "direction": "동", "category": "체험·관광", "subcategory": "섬,자전거투어", "priority": "필수", "note": "성산포항에서 배로 이동, 반나절~하루 소요. 전기자전거/스쿠터로 우도봉·하고수동·검멀레·서빈백사 등 섬 내 명소를 묶어서 도는 게 핵심. 날씨·배편 변수 있어 오전 일정 추천.", "rating": null, "region_note": "우도 방문 시 이 섬 안에서 하루 대부분을 보내는 걸 추천"}, {"name": "중문 주상절리대", "region": "중문", "direction": "남", "category": "자연명소", "subcategory": "천연기념물,해안절벽", "priority": "필수", "note": "육각기둥 해안절벽", "rating": null}, {"name": "협재해수욕장", "region": "한림", "direction": "서", "category": "자연명소", "subcategory": "해변", "priority": "필수", "note": "에메랄드빛 바다, 비양도 조망", "rating": null}, {"name": "동문시장", "region": "제주시내", "direction": "북", "category": "체험·관광", "subcategory": "전통시장,야시장", "priority": "필수", "note": "제주 대표 재래시장", "rating": null}, {"name": "스누피가든", "region": "구좌", "direction": "동", "category": "체험·관광", "subcategory": "테마정원", "priority": "추천", "note": "스누피 캐릭터 테마정원", "rating": null}, {"name": "외돌개", "region": "서귀포동지역", "direction": "남", "category": "자연명소", "subcategory": "해식절벽", "priority": "추천", "note": "소나무+해식절벽 트레킹", "rating": null}, {"name": "용머리해안", "region": "안덕", "direction": "남", "category": "자연명소", "subcategory": "해안절벽", "priority": "필수", "note": "화산지형 절벽해안, 물때확인", "rating": null}, {"name": "새연교·새섬", "region": "서귀포동지역", "direction": "남", "category": "자연명소", "subcategory": "야간 산책", "priority": "추천", "note": "야간조명 다리+새섬 산책", "rating": null}, {"name": "만장굴", "region": "구좌", "direction": "동", "category": "체험·관광", "subcategory": "용암동굴(세계자연유산)", "priority": "추천", "note": "용암동굴, 세계자연유산", "rating": null}, {"name": "이호테우해변", "region": "제주시내", "direction": "북", "category": "자연명소", "subcategory": "해변,포토스팟", "priority": "추천", "note": "목마등대 포토스팟", "rating": null}, {"name": "천지연폭포", "region": "서귀포동지역", "direction": "남", "category": "자연명소", "subcategory": "폭포", "priority": "필수", "note": "서귀포 시내 폭포", "rating": null}, {"name": "곽지해수욕장", "region": "애월", "direction": "서", "category": "자연명소", "subcategory": "해변", "priority": "추천", "note": "애월 대표 해변", "rating": null}, {"name": "천제연폭포", "region": "중문", "direction": "남", "category": "자연명소", "subcategory": "폭포", "priority": "추천", "note": "3단폭포+선임교", "rating": null}, {"name": "우도봉", "region": "우도", "direction": "동", "category": "체험·관광", "subcategory": "오름,전망대", "priority": "필수", "note": "우도 최고봉(133m), 등대와 초원 전망. 자전거로 갈 땐 동굴밥상 리조트 앞에 세워두고 도보 추천.", "rating": null}, {"name": "하고수동해수욕장", "region": "우도", "direction": "동", "category": "자연명소", "subcategory": "해변", "priority": "필수", "note": "우도 대표 해변 중 하나, 에메랄드빛 바다.", "rating": null}, {"name": "검멀레해변(동안경굴)", "region": "우도", "direction": "동", "category": "자연명소", "subcategory": "해변,해식동굴", "priority": "필수", "note": "검은 모래사장과 파도가 뚫은 동굴(우도 8경). 물때 확인 필요.", "rating": null}, {"name": "서빈백사", "region": "우도", "direction": "동", "category": "자연명소", "subcategory": "산호해변", "priority": "추천", "note": "홍조단괴로 이루어진 하얀 산호해변, 우도 8경 중 하나.", "rating": null}, {"name": "친구네다락방", "region": "제주시내", "direction": "북", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "금악오름", "region": "한림", "direction": "서", "category": "오름", "subcategory": "오름", "priority": null, "note": "정상에 패러글라이더 타는 장면, 산능선이 좋으면 대서까지 볼 수 있음. 숲길이 예쁘고 입구까지 차로 올라갈 수 있어 접근이 쉬운 편.", "rating": "4.5/5(1790)"}, {"name": "그라벨호텔", "region": "제주시내", "direction": "북", "category": "숙소", "subcategory": "호텔", "priority": null, "note": "넓은 주차장+편의점 2곳이 바로 옆. 옥탑수영장(일몰 유료) 인기 포인트.", "rating": "4.2/5(1404)"}, {"name": "금오름", "region": "한림", "direction": "서", "category": "오름", "subcategory": "오름", "priority": null, "note": "분화구에 빗물이 고여 호수처럼 보이는 독특한 오름. 왕복 1시간 30분 정도, 정상 전망이 뛰어남.", "rating": "4.6/5(87)"}, {"name": "김영갑갤러리두모악", "region": "성산", "direction": "동", "category": "문화·기타", "subcategory": "갤러리,화랑", "priority": null, "note": "사진작가 김영갑이 다니던 폐교를 개조한 갤러리, 제주의 사계절 사진과 정원 속 작은 조각상들이 인상적. 월요일 휴관.", "rating": "4.4/5(1695)"}, {"name": "다랑쉬오름", "region": "구좌", "direction": "동", "category": "오름", "subcategory": "오름", "priority": null, "note": "오름의 여왕이라 불리는 도넛형 분화구, 정상 분화구를 한 바퀴 도는 코스가 인상적. 일출 명소로도 유명함.", "rating": "4.7/5(228)"}, {"name": "더 그랜드 섬오름", "region": "서귀포동지역", "direction": "남", "category": "숙소", "subcategory": "호텔", "priority": null, "note": "바다 바로 옆, 온수풀+사우나 있음. 직원들이 친절하다는 후기 많음.", "rating": "4.3/5(858)"}, {"name": "동행in협재", "region": "한림", "direction": "서", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": "지하에 조용한 바가 있어 숙박객만 한잔 가능, 체크아웃 후 필름카메라로 사진을 찍어 보내주는 독특한 서비스.", "rating": "5.0/5(1, 참고용)"}, {"name": "루나폴", "region": "안덕", "direction": "남", "category": "체험·관광", "subcategory": "테마파크", "priority": null, "note": "야간 조명 산책전시, 19:30부터 입장. 아바타 같은 환상적인 분위기로 평가되며 밤에만 운영.", "rating": "4.4/5(192)"}, {"name": "마틸다", "region": "애월", "direction": "서", "category": "LP카페", "subcategory": "LP카페", "priority": null, "note": "1만장 넘는 바이닐 보유, 신청곡 다 틀어줌. 현지인 비중이 높은 로컬 바로 한국가요 반응이 많음.", "rating": "4.4/5(383)"}, {"name": "모들공간", "region": "구좌", "direction": "동", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "미도호스텔", "region": "서귀포동지역", "direction": "남", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": "서귀포 시장 바로 옆, 올레길 7코스 접근 좋음. 매일 저녁 7시에 같이 장보며 다른 여행객들과 교류하는 프로그램 있음.", "rating": "4.6/5(454)"}, {"name": "버블탱크 스쿠버다이빙", "region": "서귀포동지역", "direction": "남", "category": "체험·관광", "subcategory": "스킨스쿠버", "priority": null, "note": "오픈워터+어드밴스 자격증 취득 가능, 강사가 천천히 가르쳐 초보자도 부담없음. 7월 제주바다 시야가 좋다는 평.", "rating": "5.0/5(162)"}, {"name": "보롬왓", "region": "표선", "direction": "남", "category": "체험·관광", "subcategory": "관람,체험(꽃밭)", "priority": null, "note": "계절꽃밭(가을엔 메밀꽃이 하이라이트)+코코아공장, 카페 등이 함께 있는 근교 농장형 관광지. 밀크셔벗이 유명함.", "rating": "4.2/5(3616)"}, {"name": "비스비제주 앤 팜빌리지", "region": "서귀포동지역", "direction": "남", "category": "숙소", "subcategory": "펜션", "priority": null, "note": "바다 바로 옆, 바닥부터 천장까지 창문으로 파란 바다와 일몰이 훤히 보임. 무료 주차 제공.", "rating": "4.9/5(104)"}, {"name": "비자림", "region": "구좌", "direction": "동", "category": "체험·관광", "subcategory": "휴양림,산림욕장", "priority": null, "note": "1000년 넘은 비자나무가 가득한 숲속 산책로, 평탄해 누구나 걸을 수 있음. 공기가 맑고 피톤치드로 힐링되는 느낌.", "rating": "4.6/5(4474)"}, {"name": "산방댁", "region": "안덕", "direction": "남", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "산방산 탄산온천", "region": "안덕", "direction": "남", "category": "체험·관광", "subcategory": "온천,스파", "priority": null, "note": "탄산수 온천으로 피부가 부드러워진다는 후기 많음, 산방산 전망도 좋다는 평. 오후 3시 이전 주말 방문이 주차 편함.", "rating": "4.3/5(1221)"}, {"name": "새별오름", "region": "애월", "direction": "서", "category": "오름", "subcategory": "오름", "priority": null, "note": "서쪽을 대표하는 오름, 서쪽 등산로가 짧지만 가파르고 동쪽은 완만함. 봄에는 들불축제로 유명.", "rating": "4.4/5(500)"}, {"name": "샘나도", "region": "조천", "direction": "동", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "성이시돌목장", "region": "한림", "direction": "서", "category": "체험·관광", "subcategory": "관광농원,팜스테이", "priority": null, "note": "은퇴한 경주마들이 풍경 좋은 목장에서 쉬고 있음, 우유아이스크림·땅콩우유가 시그니처. 금오름과 붙어있어 함께 일정 잡기 좋음.", "rating": "4.6/5(87)"}, {"name": "세화씨문방구", "region": "구좌", "direction": "동", "category": "문화·기타", "subcategory": "판촉,기념품", "priority": null, "note": "사장님이 직접 그린 그림으로 만든 숨은 소품샵, 제주 외형 엽서카드가 대표 기념품.", "rating": "4.1/5(40)"}, {"name": "소심한이층", "region": "성산", "direction": "동", "category": "주점·바", "subcategory": "바(BAR)", "priority": null, "note": "인스타그램으로 원하는 곡 신청 가능한 2층 바, 사장님이 친절하고 이야기를 들어주는 분위기.", "rating": "4.3/5(20)"}, {"name": "속골유원지", "region": "서귀포동지역", "direction": "남", "category": "체험·관광", "subcategory": "유원지", "priority": null, "note": "해안 산책로, 개울다리·숲·수풀이 이어지는 다양한 풍경. 물때 맞춰 가면 수영도 가능, 대부분 평탄해 가족 단위에 좋음.", "rating": "4.2/5(246)"}, {"name": "송당온도", "region": "구좌", "direction": "동", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "수망다원", "region": "서귀포동지역", "direction": "남", "category": "문화·기타", "subcategory": "카페,디저트", "priority": null, "note": "녹차밭 바로 옆 조용한 찻집, 사장님이 직접 재배한 찻잎으로 말차·녹차라떼 제공. 자리마다 다밭 전망.", "rating": "4.6/5(105)"}, {"name": "스테이튠", "region": "성산", "direction": "동", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "아꼬아", "region": "한림", "direction": "서", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "아띠랑스 풀앤스파 호텔", "region": "성산", "direction": "동", "category": "숙소", "subcategory": "호텔", "priority": null, "note": "풀빌라 객실은 개인 스파+수영장 포함되어 투숙객 만족도 높음, 다만 청결 관련 지적하는 후기도 있음.", "rating": "4.3/5(133)"}, {"name": "아루미호텔 협재", "region": "한림", "direction": "서", "category": "숙소", "subcategory": "호텔", "priority": null, "note": "협재해수욕장과 가까우며 가성비 좋은 편, 주차가 좁고 편수가 적어 불편하다는 후기 있음(1인 여행에 더 적합).", "rating": "4.4/5(66)"}, {"name": "애월밤하늘바다자연애", "region": "애월", "direction": "서", "category": "숙소", "subcategory": "민박", "priority": null, "note": null, "rating": null}, {"name": "용눈이오름", "region": "구좌", "direction": "동", "category": "오름", "subcategory": "오름", "priority": null, "note": "능선이 완만해 1시간 이내로 오를 수 있는 편, 억새 무성한 능선과 바다 전망이 좋아 관광버스로도 접근 가능.", "rating": "4.6/5(270)"}, {"name": "일일시호일", "region": "안덕", "direction": "남", "category": "숙소", "subcategory": "펜션", "priority": null, "note": null, "rating": null}, {"name": "제주 공감 게스트하우스", "region": "대정", "direction": "남", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": "올레길 11·12코스 인접, 사장님이 무료 돌고래투어를 직접 안내해줌. 모닥불 주변에서 손님들과 함께하는 프로그램이 따뜻함.", "rating": "4.4/5(66)"}, {"name": "제주 귀덕 골방 (애월과 협재 사이)", "region": "한림", "direction": "서", "category": "주점·바", "subcategory": "LP바(야간 강력추천)", "priority": "필수", "note": "⭐ 저녁에 음악 들으며 술 한잔하기 굉장히 좋은 분위기, 강력 추천 스팟. 음악+위스키를 즐기는 작은 와인바, 예약 추천(종료시간 짧음: 오후 11시까지).", "rating": "5.0/5(11)"}, {"name": "제주도 조용한 게스트하우스 산방산점", "region": "안덕", "direction": "남", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": "⚠️ 후기가 극단적으로 갈림(프로그램 좋다/침구류+개짖음 대불만). 예약 전 최신 후기 꼼꼼히 확인 추천.", "rating": "4.1/5(11, 주의)"}, {"name": "제주도게스트하우스 협재정류장", "region": "한림", "direction": "서", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": "고양이가 있고 파티가 부담없이 참여할 수 있는 편안한 분위기, 직원들이 친절하다는 평.", "rating": "4.9/5(11)"}, {"name": "제주레일바이크", "region": "구좌", "direction": "동", "category": "체험·관광", "subcategory": "레일바이크", "priority": null, "note": "자동 레일바이크로 페달이 별도로 필요없음, 작은 동물체험장도 있음. 다만 남이섬 대비 다소 밋밋하다는 평도 있음.", "rating": "3.9/5(4627)"}, {"name": "제주브릭스", "region": "서귀포동지역", "direction": "남", "category": "숙소", "subcategory": "호텔", "priority": null, "note": "서귀포 외곽 위치, 조식(토스트+계란후라이) 포함, 객실에서 바다 전망 좋다는 언급 많음.", "rating": "4.4/5(163)"}, {"name": "제주신라호텔", "region": "중문", "direction": "남", "category": "숙소", "subcategory": "호텔", "priority": null, "note": "중문 대표 특급호텔, 도보 5분거리에 바다+일출 명소. 오래된 객실 컨디션을 지적하는 후기도 있음.", "rating": "4.6/5(5388)"}, {"name": "제주택", "region": "구좌", "direction": "동", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "제주허브동산", "region": "표선", "direction": "남", "category": "체험·관광", "subcategory": "식물원,수목원", "priority": null, "note": "야간에 조명이 켜지는 정원이 하이라이트, 6시 이후 방문이 포토 찍기에 좋음. 족욕체험도 있음.", "rating": "4.2/5(2641)"}, {"name": "파노라마 제주", "region": "한림", "direction": "서", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": "캑터스군락+바다가 도보 3분, 바다뷰 객실이 좋다는 평가. 리뷰수가 적어 참고용.", "rating": "4.0/5(2, 참고용)"}, {"name": "표선하늘의원", "region": "표선", "direction": "남", "category": "편의시설", "subcategory": "내과(병원)", "priority": null, "note": null, "rating": null}, {"name": "프롤로그", "region": "조천", "direction": "동", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "학교괴담in제주", "region": "중문", "direction": "남", "category": "문화·기타", "subcategory": "체험형박물관", "priority": null, "note": "실사 같은 세트+조명으로 극장감 있는 체험형 헤러하우스, 비 오는 날 실내 액티비티 대안으로 좋음.", "rating": "4.9/5(312)"}, {"name": "한잔하세화", "region": "구좌", "direction": "동", "category": "주점·바", "subcategory": "요리주점", "priority": null, "note": null, "rating": null}, {"name": "함덕엽집", "region": "조천", "direction": "동", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": null, "rating": null}, {"name": "해일리 풀앤스파 호텔", "region": "성산", "direction": "동", "category": "숙소", "subcategory": "호텔", "priority": null, "note": "성산일출봉 전망 객실, 유리하우스 카페도 평판 좋음(3년차 신생 호텔).", "rating": "4.4/5(69)"}, {"name": "협재게스트하우스 서쪽밤", "region": "한림", "direction": "서", "category": "숙소", "subcategory": "게스트하우스", "priority": null, "note": "리뷰수가 적어 참고만 하는 수준, 방문 전 최신 후기 재확인 추천.", "rating": "4.0/5(2, 참고용)"}, {"name": "협재볼륨", "region": "한림", "direction": "서", "category": "주점·바", "subcategory": "바(BAR)", "priority": null, "note": "늘 진하는 널찍한 LP바, 노래 신청 가능하고 다양한 술을 취급. 단점은 화장실이 공용이라 붐빌 때 불편할 수 있음.", "rating": "4.9/5(8)"}, {"name": "호텔 더본 제주", "region": "중문", "direction": "남", "category": "숙소", "subcategory": "호텔", "priority": null, "note": "호텔 앞 치즈돈가스 줄이 유명(대기 길음), 조식뷔페가 평균 이상이라는 후기. 주변 식당 쿠폰이 많이 제공됨.", "rating": "4.4/5(2690)"}, {"name": "호텔아나타", "region": "제주시내", "direction": "북", "category": "숙소", "subcategory": "호스텔", "priority": null, "note": "동문재래시장 도보 1분, 공항에서 가까워 도착 첫날 묵기 좋음. 인스타감성 신생 호텔, 반려동반 가능.", "rating": "4.9/5(7)"}, {"name": "휘게호텔", "region": "대정", "direction": "남", "category": "숙소", "subcategory": "펜션", "priority": null, "note": null, "rating": null}, {"name": "N109 스테이", "region": "구좌", "direction": "동", "category": "숙소", "subcategory": "펜션", "priority": null, "note": "같은 주소에 카페(N109)가 같이 있어 바다뷰 드립커피를 즐길 수 있음. 파란 바다와 가까운 위치.", "rating": "카페 4.3/5(60)"}, {"name": "로미뮤직하우스", "region": "조천", "direction": "동", "category": "LP카페", "subcategory": "LP카페", "priority": "추천", "note": "LP 감상법을 알려주는 안내지가 있고 직원이 친절하게 도와줌. 국내외 LP 다양, 오후부터는 대기 있을 수 있어 오전 방문 추천.", "rating": "4.8/5(20)"}, {"name": "네도 음악상가", "region": "애월", "direction": "서", "category": "LP카페", "subcategory": "LP카페", "priority": "추천", "note": "2층 재즈 음악 와인바, 바다 전망 좋고 스피커 음질이 훌륭함. 좌석이 적어 조용하고 로맨틱한 분위기.", "rating": "4.4/5(71)", "reservation": "가능(선택)"}]};
+
+const state = { car:null, people:null, nights:null, direction:null, themes:[], arrival:null, departure:null, selected: new Set() };
+
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-screen="${screen}"]`).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* alert()/confirm() 같은 브라우저 팝업은 이 환경에서 막힐 수 있어 대신 화면 내 토스트로 표시 */
+function showToast(msg) {
+  let t = document.getElementById('toastBox');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toastBox';
+    t.style.cssText = 'position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--ocean-deep); color:#fff; padding:12px 18px; border-radius:12px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow); z-index:999; max-width:90%; text-align:center;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => { t.style.opacity = '0'; }, 2600);
+}
+
+function restartAll() {
+  state.car = null; state.people = null; state.nights = null;
+  state.direction = null; state.themes = [];
+  state.arrival = null; state.departure = null;
+  state.selected = new Set();
+  state.plan = [];
+  clearSavedState();
+  document.querySelectorAll('.chip.selected, .dir-card.selected').forEach(el => el.classList.remove('selected'));
+  goTo('landing');
+}
+
+/* ============ 대략적인 동선 지도 (제주도 단순화 SVG) ============ */
+const REGION_COORDS = {
+  "한림": [70,95], "애월": [140,75], "제주시내": [230,58], "조천": [292,66],
+  "구좌": [368,82], "성산": [430,112], "우도": [472,96], "표선": [382,152],
+  "서귀포동지역": [270,172], "중문": [212,176], "안덕": [152,166], "대정": [98,156],
+};
+const DAY_COLORS = ["#e07a3f","#3f7ee0","#3fb87e","#c04fd1","#d1a83f","#666"];
+
+function islandSvgBase() {
+  return `<path d="M40,110 C50,60 130,30 230,32 C340,30 440,55 480,100 C495,120 480,150 440,165 C380,190 300,205 220,200 C140,198 70,185 45,150 C30,130 32,120 40,110 Z" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>`;
+}
+
+function renderRouteMap(dayGroups, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  let svg = `<svg viewBox="0 0 500 220" style="width:100%; height:auto; max-height:180px;">`;
+  svg += islandSvgBase();
+  // 옅은 배경 점: 전체 지역
+  Object.entries(REGION_COORDS).forEach(([name,[x,y]]) => {
+    svg += `<circle cx="${x}" cy="${y}" r="3" fill="var(--border)"/>`;
+  });
+  dayGroups.forEach((regions, idx) => {
+    const color = DAY_COLORS[idx % DAY_COLORS.length];
+    const pts = regions.map(r => REGION_COORDS[r]).filter(Boolean);
+    if (pts.length > 1) {
+      const pathD = pts.map((p,i) => (i===0?'M':'L') + p[0] + ',' + p[1]).join(' ');
+      svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-dasharray="5,4" opacity="0.85"/>`;
+    }
+    pts.forEach((p,i) => {
+      svg += `<circle cx="${p[0]}" cy="${p[1]}" r="7" fill="${color}"/><text x="${p[0]}" y="${p[1]+3.5}" font-size="8" fill="#fff" text-anchor="middle" font-weight="700">${i+1}</text>`;
+    });
+  });
+  svg += `</svg>`;
+  container.innerHTML = svg;
+}
+
+function dayToRegions(day) {
+  const sorted = [...day.slots].filter(s=>s.item && s.item.region).sort((a,b)=>a.time.localeCompare(b.time));
+  const regions = [];
+  sorted.forEach(s => { if (regions[regions.length-1] !== s.item.region) regions.push(s.item.region); });
+  return regions;
+}
+
+let quickDirection = null;
+function quickPick(dir) {
+  quickDirection = dir;
+  document.querySelectorAll('[data-group="quickDir"] .chip').forEach(b => {
+    b.classList.toggle('selected', b.dataset.value === dir);
+  });
+  const restaurants = DATA.restaurants.filter(r => r.direction === dir);
+  const places = DATA.places.filter(p => p.direction === dir);
+  const cats = categorize(restaurants, places);
+  const el = document.getElementById('quickResults');
+  el.innerHTML = '';
+  Object.keys(cats).forEach(catName => {
+    const items = [...cats[catName]].sort((a,b)=>priorityScore(a)-priorityScore(b)).slice(0, 5);
+    if (items.length === 0) return;
+    const box = document.createElement('div');
+    box.style.marginTop = '18px';
+    let html = `<div class="q-label" style="margin-bottom:8px;">${catName}</div>`;
+    items.forEach(item => {
+      const badge = item.priority ? `<span class="cand-badge">${item.priority}</span>` : '';
+      html += `<div class="cand-card" style="cursor:default;">
+        <div class="cand-body">
+          <div class="cand-name-row"><span class="cand-name">${typeIcon[typeOf(item)]||''} ${escapeHtml(item.name)}</span>${badge}</div>
+          <div class="cand-note">${infoLine(item)}</div>
+        </div></div>`;
+    });
+    box.innerHTML = html;
+    el.appendChild(box);
+  });
+}
+
+function continueFromQuick() {
+  if (quickDirection) {
+    state.direction = quickDirection;
+    document.querySelectorAll('.dir-card').forEach(b => {
+      b.classList.toggle('selected', b.dataset.value === quickDirection);
+    });
+  }
+  goTo('step1');
+}
+
+const SAVE_KEY = 'jejuCourseMaker_v1';
+
+function saveState() {
+  try {
+    const snapshot = {
+      car: state.car, people: state.people, nights: state.nights,
+      direction: state.direction, themes: state.themes,
+      arrival: state.arrival, departure: state.departure,
+      selected: [...state.selected], plan: state.plan,
+      savedAt: Date.now()
+    };
+    localStorage.setItem(SAVE_KEY, JSON.stringify(snapshot));
+  } catch (e) { /* 저장 실패해도 앱은 계속 동작 */ }
+}
+
+function clearSavedState() {
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
+}
+
+function tryOfferResume() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    if (!saved.plan || !saved.plan.length) return;
+    document.getElementById('resumeBanner').style.display = 'block';
+    const d = new Date(saved.savedAt);
+    document.getElementById('resumeInfo').textContent =
+      `${saved.direction || ''}쪽 · Day ${saved.plan.length}일 · ${d.toLocaleDateString('ko-KR')} 저장됨`;
+    window._savedPlan = saved;
+  } catch (e) {}
+}
+
+function resumeSavedPlan() {
+  const saved = window._savedPlan;
+  if (!saved) return;
+  state.car = saved.car; state.people = saved.people; state.nights = saved.nights;
+  state.direction = saved.direction; state.themes = saved.themes || [];
+  state.arrival = saved.arrival; state.departure = saved.departure;
+  state.selected = new Set(saved.selected || []);
+  state.plan = saved.plan || [];
+  planDayIdx = 0;
+  renderPlan();
+  goTo('plan');
+}
+
+/* ============ 2. 전체 일정 보기 / 공유 ============ */
+function closedDayBadge(note) {
+  if (!note) return '';
+  const m = note.match(/([월화수목금토일](?:[·,\s]?[월화수목금토일])*)\s*휴무/);
+  return m ? `<span style="font-size:10px; font-weight:700; color:#c0392b; background:#fce8e6; border-radius:5px; padding:1px 5px; margin-left:5px;">${m[1]} 휴무</span>` : '';
+}
+
+function renderOverview() {
+  const el = document.getElementById('overviewContent');
+  el.innerHTML = '<div id="overviewMap" style="margin-bottom:14px;"></div><div id="overviewMapLegend" style="font-size:11.5px; color:var(--text-dim); margin-bottom:14px;"></div>';
+  const lines = [`🍊 제주 여행 계획표 (${state.direction || ''}쪽, ${state.nights || ''})`, ''];
+
+  renderRouteMap(state.plan.map(dayToRegions), 'overviewMap');
+  document.getElementById('overviewMapLegend').innerHTML = state.plan.map((day,idx) =>
+    `<span style="color:${DAY_COLORS[idx % DAY_COLORS.length]}; font-weight:700;">● Day ${day.day}</span>`
+  ).join('&nbsp;&nbsp;');
+
+  state.plan.forEach(day => {
+    const dayBox = document.createElement('div');
+    dayBox.style.cssText = 'margin-bottom:16px; border:1px solid var(--border); border-radius:12px; padding:12px 14px;';
+    let html = `<div style="font-weight:800; margin-bottom:8px;">Day ${day.day}</div>`;
+    lines.push(`[Day ${day.day}]`);
+    const sorted = [...day.slots].sort((a,b) => a.time.localeCompare(b.time));
+    sorted.forEach(slot => {
+      if (!slot.item) return;
+      const badge = closedDayBadge(slot.item.note);
+      html += `<div style="font-size:13px; margin-bottom:4px;"><b>${slot.time}</b> ${typeIcon[typeOf(slot.item)]||''} ${escapeHtml(slot.item.name)}${badge}</div>`;
+      lines.push(`${slot.time}  ${slot.item.name}`);
+    });
+    dayBox.innerHTML = html;
+    el.appendChild(dayBox);
+    lines.push('');
+  });
+
+  document.getElementById('shareText').value = lines.join('\n');
+}
+
+async function copyShareText() {
+  const ta = document.getElementById('shareText');
+  ta.select();
+  try {
+    await navigator.clipboard.writeText(ta.value);
+    showToast('복사됐어요! 이제 붙여넣기 하시면 돼요.');
+  } catch (e) {
+    showToast('자동 복사가 막혀있는 환경이에요. 위 박스가 이미 전체 선택되어 있으니, Ctrl+C(또는 Cmd+C)로 직접 복사해주세요.');
+  }
+}
+
+document.querySelectorAll('[data-group="car"] .chip, [data-group="people"] .chip, [data-group="nights"] .chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const group = btn.parentElement.dataset.group;
+    btn.parentElement.querySelectorAll('.chip').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state[group === 'car' ? 'car' : group === 'people' ? 'people' : 'nights'] = btn.dataset.value;
+  });
+});
+
+document.querySelectorAll('[data-group="direction"] .dir-card').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.dir-card').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.direction = btn.dataset.value;
+  });
+});
+
+document.querySelectorAll('[data-group="theme"] .chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('selected');
+    const v = btn.dataset.value;
+    if (state.themes.includes(v)) state.themes = state.themes.filter(t => t !== v);
+    else state.themes.push(v);
+  });
+});
+
+document.querySelectorAll('[data-group="arrival"] .chip, [data-group="departure"] .chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const group = btn.parentElement.dataset.group;
+    btn.parentElement.querySelectorAll('.chip').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state[group] = Number(btn.dataset.value);
+  });
+});
+
+function validateStep1() {
+  if (!state.car || !state.people || !state.nights) {
+    showToast('세 가지 다 선택해주세요!');
+    return;
+  }
+  goTo('step2');
+}
+
+function validateStep2() {
+  if (!state.direction) {
+    showToast('방향을 선택해주세요!');
+    return;
+  }
+  goTo('step3');
+}
+
+function validateStep3() {
+  if (state.arrival == null || state.departure == null) {
+    showToast('도착/출발 시간을 선택해주세요!');
+    return;
+  }
+  renderSelectScreen();
+  goTo('select');
+}
+
+function filterData() {
+  const dir = state.direction;
+  const restaurants = DATA.restaurants.filter(r => r.direction === dir);
+  const places = DATA.places.filter(p => p.direction === dir);
+  return { restaurants, places };
+}
+
+/* ============ 추천 화면 (사전 즐겨찾기, 선택사항) ============ */
+
+const PRIORITY_RANK = { "필수": 0, "추천": 1, "선택": 2 };
+function priorityScore(p) { return PRIORITY_RANK[p.priority] ?? 3; }
+
+/* 메뉴/특징/평점/예약/주차를 한 줄 설명으로 조합 */
+function infoLine(item) {
+  const parts = [];
+  if (item.menu) parts.push(`<b>${escapeHtml(item.menu)}</b>`);
+  if (item.note || item.subcategory || item.category) parts.push(escapeHtml(item.note || item.subcategory || item.category));
+  let line = parts.join(' · ') || '';
+  const tags = [];
+  if (item.rating) tags.push(`⭐${escapeHtml(item.rating)}`);
+  if (item.reservation) tags.push(`📅예약 ${escapeHtml(item.reservation)}`);
+  if (item.parking) tags.push(`🅿️${escapeHtml(item.parking)}`);
+  if (tags.length) line += (line ? '<br>' : '') + `<span style="opacity:.75;font-size:11.5px;">${tags.join(' · ')}</span>`;
+  return line;
+}
+
+let selectCategory = '맛집';
+function categorize(restaurants, places) {
+  const all = [...restaurants, ...places];
+  const lpCafes = all.filter(x => x.category === 'LP카페');
+  const cafes = restaurants.filter(r => !lpCafes.includes(r) && ((r.category||'').includes('카페') || (r.category||'').includes('베이커리')));
+  const meals = restaurants.filter(r => !cafes.includes(r) && !lpCafes.includes(r));
+  const attractions = places.filter(p => p.category !== '숙소' && p.category !== 'LP카페');
+  const lodgings = places.filter(p => p.category === '숙소');
+  return { '맛집': meals, '카페': cafes, 'LP카페·야간': lpCafes, '명소·자연': attractions, '숙소': lodgings };
+}
+
+let searchQuery = '';
+function matchesSearch(item, q) {
+  if (!q) return true;
+  const hay = `${item.name} ${item.menu||''} ${item.note||''} ${item.category||''}`.toLowerCase();
+  return hay.includes(q.toLowerCase());
+}
+
+function renderSelectScreen() {
+  const tabsEl = document.getElementById('selectTabs');
+  tabsEl.innerHTML = '';
+  const { restaurants, places } = filterData();
+  const cats = categorize(restaurants, places);
+  Object.keys(cats).forEach(cat => {
+    const b = document.createElement('button');
+    b.className = 'day-tab' + (cat === selectCategory ? ' active' : '');
+    b.textContent = `${cat} (${cats[cat].length})`;
+    b.onclick = () => { selectCategory = cat; renderSelectScreen(); };
+    tabsEl.appendChild(b);
+  });
+
+  const listEl = document.getElementById('selectList');
+  listEl.innerHTML = `<input id="selectSearchInput" type="text" placeholder="🔍 이름·메뉴로 검색" value="${escapeHtml(searchQuery)}" class="time-input" style="width:100%; border:1.5px solid var(--border); border-radius:8px; padding:8px 10px; margin-bottom:8px; font-size:13px;">
+    <div class="select-count-bar">${state.selected.size}곳 즐겨찾기함 (안 골라도 괜찮아요, 자동으로 우선순위 높은 곳부터 추천해요)</div>
+    <div id="selectResults"></div>`;
+  document.getElementById('selectSearchInput').oninput = function() { searchQuery = this.value; renderSelectResults(); };
+  renderSelectResults();
+}
+
+function renderSelectResults() {
+  const { restaurants, places } = filterData();
+  const cats = categorize(restaurants, places);
+  const resultsEl = document.getElementById('selectResults');
+  resultsEl.innerHTML = '';
+  const items = [...cats[selectCategory]].filter(x => matchesSearch(x, searchQuery)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+  if (items.length === 0) {
+    resultsEl.innerHTML = `<div style="font-size:13px; color:var(--text-dim); padding:12px 0;">검색 결과가 없어요.</div>`;
+    return;
+  }
+  items.forEach(item => {
+    const card = document.createElement('button');
+    card.className = 'cand-card' + (state.selected.has(item.name) ? ' selected' : '');
+    const badge = item.priority ? `<span class="cand-badge">${item.priority}</span>` : '';
+    card.innerHTML = `
+      <div class="cand-check">✓</div>
+      <div class="cand-body">
+        <div class="cand-name-row"><span class="cand-name">${escapeHtml(item.name)}</span>${badge}</div>
+        <div class="cand-note">${infoLine(item)}</div>
+      </div>`;
+    card.onclick = () => {
+      if (state.selected.has(item.name)) state.selected.delete(item.name);
+      else state.selected.add(item.name);
+      renderSelectResults();
+    };
+    resultsEl.appendChild(card);
+  });
+}
+
+function confirmSelectionAndBuild() {
+  initPlan();
+  suggestRoute();
+  renderPlan();
+  goTo('plan');
+}
+
+/* ============ 계획표: 추천 동선 자동 배치 + 자유 편집 ============ */
+
+let uidCounter = 1;
+function uid() { return 'slot_' + (uidCounter++); }
+
+function typeOf(item) {
+  if (item.category === '숙소') return '숙소';
+  if (item.category === 'LP카페') return 'LP카페';
+  if ((item.category||'').includes('카페') || (item.category||'').includes('베이커리') || (item.subcategory||'').includes('카페')) return '카페';
+  return '명소';
+}
+function isMealTime(timeStr) {
+  const h = parseFloat(timeStr.replace(':','.'));
+  return (h >= 11 && h <= 14) || (h >= 17.3 && h <= 20.3);
+}
+
+function defaultSlotTimes(dayIdx, dayCount) {
+  const base = [
+    { time:'08:30', hour:8.5 },
+    { time:'12:00', hour:12 },
+    { time:'15:00', hour:15 },
+    { time:'18:30', hour:18.5 },
+    { time:'20:30', hour:20.5 },
+  ];
+  let slots = base;
+  if (dayIdx === 0) slots = slots.filter(s => s.hour >= state.arrival - 0.6);
+  if (dayIdx === dayCount - 1) slots = slots.filter(s => s.hour <= state.departure - 2);
+  if (slots.length === 0) slots = [base[1]];
+  return slots.map(s => s.time);
+}
+
+function initPlan() {
+  const nightsMap = {"당일치기":0, "1박 2일":1, "2박 3일":2, "3박 4일":3, "4박 5일 이상":4};
+  const dayCount = (nightsMap[state.nights] ?? 1) + 1;
+  state.plan = [];
+  for (let d = 0; d < dayCount; d++) {
+    const times = defaultSlotTimes(d, dayCount);
+    state.plan.push({ day: d+1, slots: times.map(t => ({ id: uid(), time: t, item: null })) });
+  }
+  planDayIdx = 0;
+}
+
+/* 추천 동선: 우선순위(즐겨찾기 > 필수 > 추천 > 선택) 순으로 자동 배치 */
+function suggestRoute() {
+  const { restaurants, places } = filterData();
+  const bySel = (arr) => {
+    const sel = arr.filter(x => state.selected.has(x.name)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+    const rest = arr.filter(x => !state.selected.has(x.name)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+    return [...sel, ...rest];
+  };
+  const attrPool = bySel(places.filter(p => p.category !== '숙소' && p.region !== '우도'));
+  const mealPool = bySel(restaurants.filter(r => r.region !== '우도'));
+  const lodgePool = bySel(places.filter(p => p.category === '숙소'));
+  const udoAll = bySel([...places.filter(p=>p.region==='우도'), ...restaurants.filter(r=>r.region==='우도')]);
+
+  const used = new Set();
+  const hasUdoFav = udoAll.some(x => state.selected.has(x.name));
+  const udoDayIdx = hasUdoFav ? (state.plan.length > 1 ? 1 : 0) : -1;
+  let ai=0, mi=0, li=0, ui=0;
+
+  state.plan.forEach((day, dIdx) => {
+    const isUdo = dIdx === udoDayIdx;
+    day.slots.forEach(slot => {
+      let item = null;
+      if (isUdo) {
+        while (ui < udoAll.length && used.has(udoAll[ui].name)) ui++;
+        if (ui < udoAll.length) item = udoAll[ui++];
+      } else if (isMealTime(slot.time)) {
+        while (mi < mealPool.length && used.has(mealPool[mi].name)) mi++;
+        if (mi < mealPool.length) item = mealPool[mi++];
+      } else {
+        while (ai < attrPool.length && used.has(attrPool[ai].name)) ai++;
+        if (ai < attrPool.length) item = attrPool[ai++];
+      }
+      if (item) { slot.item = item; used.add(item.name); }
+    });
+    if (dIdx < state.plan.length - 1) {
+      while (li < lodgePool.length && used.has(lodgePool[li].name)) li++;
+      if (li < lodgePool.length) {
+        const l = lodgePool[li++];
+        day.slots.push({ id: uid(), time:'22:00(숙소)', item: l });
+        used.add(l.name);
+      }
+    }
+  });
+}
+
+let planDayIdx = 0;
+let activePicker = null; // { dayIdx, slotId }
+let pickerCategory = '맛집';
+let pickerSearchQuery = '';
+
+function renderPickerResultsInto(list, cats) {
+  const usedNames = new Set();
+  state.plan.forEach(d => d.slots.forEach(s => { if (s.item) usedNames.add(s.item.name); }));
+  list.innerHTML = '';
+  const items = [...cats[pickerCategory]].filter(x => matchesSearch(x, pickerSearchQuery)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+  if (items.length === 0) {
+    list.innerHTML = `<div style="font-size:13px; color:var(--text-dim); padding:8px 0;">검색 결과가 없어요.</div>`;
+    return;
+  }
+  items.forEach(item => {
+    const card = document.createElement('button');
+    card.className = 'cand-card';
+    if (usedNames.has(item.name)) card.style.opacity = '0.45';
+    const badge = item.priority ? `<span class="cand-badge">${item.priority}</span>` : '';
+    const star = state.selected.has(item.name) ? '🔖 ' : '';
+    card.innerHTML = `
+      <div class="cand-check">✓</div>
+      <div class="cand-body">
+        <div class="cand-name-row"><span class="cand-name">${star}${escapeHtml(item.name)}</span>${badge}</div>
+        <div class="cand-note">${infoLine(item)}</div>
+      </div>`;
+    card.onclick = () => {
+      const day = state.plan[activePicker.dayIdx];
+      const slot = day.slots.find(s => s.id === activePicker.slotId);
+      if (slot) slot.item = item;
+      activePicker = null;
+      renderPlan();
+    };
+    list.appendChild(card);
+  });
+}
+
+function renderPickerResults() {
+  const list = document.getElementById('pickerResults');
+  if (!list) return;
+  const { restaurants, places } = filterData();
+  const cats = categorize(restaurants, places);
+  renderPickerResultsInto(list, cats);
+}
+
+function renderPlan() {
+  const tabsEl = document.getElementById('planTabs');
+  tabsEl.innerHTML = '';
+  state.plan.forEach((day, idx) => {
+    const b = document.createElement('button');
+    b.className = 'day-tab' + (idx === planDayIdx ? ' active' : '');
+    b.textContent = 'Day ' + day.day;
+    b.onclick = () => { planDayIdx = idx; activePicker = null; renderPlan(); };
+    tabsEl.appendChild(b);
+  });
+
+  const slotsEl = document.getElementById('planSlots');
+  slotsEl.innerHTML = '';
+  const day = state.plan[planDayIdx];
+  const sorted = [...day.slots].sort((a,b) => a.time.localeCompare(b.time));
+
+  sorted.forEach(slot => {
+    const el = document.createElement('div');
+    el.className = 'stop';
+    const timeInput = `<input type="text" value="${slot.time}" class="time-input" onchange="updateSlotTime('${slot.id}', this.value)">`;
+    if (slot.item) {
+      el.innerHTML = `
+        <div class="stop-time">${timeInput}</div>
+        <div class="stop-icon">${typeIcon[typeOf(slot.item)] || '✨'}</div>
+        <div class="stop-body" style="cursor:pointer;" onclick="openPicker('${slot.id}')">
+          <div class="stop-name">${escapeHtml(slot.item.name)}${closedDayBadge(slot.item.note)}</div>
+          <div class="stop-note">${infoLine(slot.item)}</div>
+        </div>
+        <button class="btn-ghost" style="padding:4px 8px;font-size:16px;" onclick="clearSlot('${slot.id}')">✕</button>`;
+    } else {
+      el.innerHTML = `
+        <div class="stop-time">${timeInput}</div>
+        <div class="stop-icon" style="opacity:.3;">＋</div>
+        <div class="stop-body" style="cursor:pointer;" onclick="openPicker('${slot.id}')">
+          <div class="stop-note" style="opacity:.6;">탭해서 장소 고르기</div>
+        </div>
+        <button class="btn-ghost" style="padding:4px 8px;font-size:14px;" onclick="removeSlot('${slot.id}')">삭제</button>`;
+    }
+    slotsEl.appendChild(el);
+  });
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn btn-secondary';
+  addBtn.style.cssText = 'width:100%; margin-top:10px;';
+  addBtn.textContent = '+ 시간대 추가';
+  addBtn.onclick = addSlot;
+  slotsEl.appendChild(addBtn);
+
+  if (activePicker && activePicker.dayIdx === planDayIdx) {
+    slotsEl.appendChild(renderPickerPanel());
+  }
+
+  renderDistanceWarning(day);
+  renderRouteMap([dayToRegions(day)], 'planMap');
+  saveState();
+}
+
+/* ============ 3. 같은 날 동선이 너무 먼 경우 경고 ============ */
+function renderDistanceWarning(day) {
+  let warnEl = document.getElementById('distanceWarning');
+  if (warnEl) warnEl.remove();
+  if (state.car !== '없음') return;
+  const regions = [...new Set(day.slots.filter(s => s.item && s.item.region).map(s => s.item.region))];
+  if (regions.length <= 1) return;
+  warnEl = document.createElement('div');
+  warnEl.id = 'distanceWarning';
+  warnEl.style.cssText = 'background:color-mix(in srgb, var(--accent) 12%, transparent); border:1px solid var(--accent); border-radius:10px; padding:10px 12px; margin-top:10px; font-size:12.5px; color:var(--text);';
+  warnEl.innerHTML = `⚠️ 차량 없이 <b>${regions.join(', ')}</b>를 오가는 일정이에요. 이동시간이 오래 걸릴 수 있어요.`;
+  document.getElementById('planSlots').appendChild(warnEl);
+}
+
+function updateSlotTime(slotId, newVal) {
+  const day = state.plan[planDayIdx];
+  const slot = day.slots.find(s => s.id === slotId);
+  if (slot) slot.time = newVal || slot.time;
+  renderPlan();
+}
+
+function addSlot() {
+  const day = state.plan[planDayIdx];
+  day.slots.push({ id: uid(), time: '12:00', item: null });
+  renderPlan();
+}
+
+function removeSlot(slotId) {
+  const day = state.plan[planDayIdx];
+  day.slots = day.slots.filter(s => s.id !== slotId);
+  renderPlan();
+}
+
+function clearSlot(slotId) {
+  const day = state.plan[planDayIdx];
+  const slot = day.slots.find(s => s.id === slotId);
+  if (slot) slot.item = null;
+  renderPlan();
+}
+
+function openPicker(slotId) {
+  activePicker = { dayIdx: planDayIdx, slotId };
+  renderPlan();
+  setTimeout(() => {
+    const panel = document.getElementById('pickerPanel');
+    if (panel) panel.scrollIntoView({ behavior:'smooth', block:'center' });
+  }, 50);
+}
+function closePicker() { activePicker = null; renderPlan(); }
+
+function renderPickerPanel() {
+  const wrap = document.createElement('div');
+  wrap.id = 'pickerPanel';
+  wrap.style.cssText = 'border:1.5px solid var(--accent); border-radius:14px; padding:14px; margin-top:14px; background:var(--surface);';
+
+  const { restaurants, places } = filterData();
+  const cats = categorize(restaurants, places);
+
+  const tabRow = document.createElement('div');
+  tabRow.className = 'chip-row';
+  tabRow.style.marginBottom = '10px';
+  Object.keys(cats).forEach(cat => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (cat === pickerCategory ? ' selected' : '');
+    b.textContent = cat;
+    b.onclick = (e) => { e.preventDefault(); pickerCategory = cat; renderPlan(); };
+    tabRow.appendChild(b);
+  });
+  wrap.appendChild(tabRow);
+
+  const searchInput = document.createElement('input');
+  searchInput.type = 'text';
+  searchInput.placeholder = '🔍 이름·메뉴로 검색';
+  searchInput.value = pickerSearchQuery;
+  searchInput.className = 'time-input';
+  searchInput.style.cssText = 'width:100%; border:1.5px solid var(--border); border-radius:8px; padding:8px 10px; margin-bottom:10px; font-size:13px;';
+  searchInput.oninput = function() { pickerSearchQuery = this.value; renderPickerResults(); };
+  wrap.appendChild(searchInput);
+
+  const list = document.createElement('div');
+  list.id = 'pickerResults';
+  wrap.appendChild(list);
+  renderPickerResultsInto(list, cats);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn btn-ghost';
+  closeBtn.style.cssText = 'width:100%; margin-top:6px;';
+  closeBtn.textContent = '닫기';
+  closeBtn.onclick = closePicker;
+  wrap.appendChild(closeBtn);
+
+  return wrap;
+}
+
+function autoFillEmpty() {
+  const { restaurants, places } = filterData();
+  const used = new Set();
+  state.plan.forEach(d => d.slots.forEach(s => { if (s.item) used.add(s.item.name); }));
+  const attrPool = places.filter(p => p.category !== '숙소' && p.region !== '우도' && !used.has(p.name)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+  const mealPool = restaurants.filter(r => r.region !== '우도' && !used.has(r.name)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+  let ai=0, mi=0;
+  state.plan.forEach(day => {
+    day.slots.forEach(slot => {
+      if (slot.item) return;
+      if (isMealTime(slot.time)) {
+        while (mi < mealPool.length && used.has(mealPool[mi].name)) mi++;
+        if (mi < mealPool.length) { slot.item = mealPool[mi]; used.add(mealPool[mi].name); mi++; }
+      } else {
+        while (ai < attrPool.length && used.has(attrPool[ai].name)) ai++;
+        if (ai < attrPool.length) { slot.item = attrPool[ai]; used.add(attrPool[ai].name); ai++; }
+      }
+    });
+  });
+  renderPlan();
+}
+
+function buildPrompt() {
+  const planSummary = state.plan.map(day => ({
+    day: day.day,
+    slots: day.slots.map(s => ({ id: s.id, time: s.time, filled: s.item ? s.item.name : null }))
+  }));
+  const { restaurants, places } = filterData();
+
+  return `너는 제주도 여행 계획표를 다듬어주는 어시스턴트야. 아래 지침을 반드시 지켜.
+
+[여행 조건]
+- 차량: ${state.car} / 인원: ${state.people} / 방향: ${state.direction}쪽
+- 선호 테마: ${state.themes.length ? state.themes.join(', ') : '특별한 선호 없음'}
+
+[사용자가 이미 직접 구성한 계획표 - 절대 이 배치를 바꾸지 마]
+${JSON.stringify(planSummary)}
+
+[규칙]
+1. "filled"가 null이 아닌 슬롯은 절대 다른 장소로 바꾸지 마. id와 이름 그대로 유지해.
+2. "filled"가 null인 빈 슬롯만 아래 장소 목록에서 골라 채워. 이미 다른 슬롯에 쓰인 이름은 중복해서 쓰지 마. 시간대가 점심/저녁 근처면 맛집 목록에서, 그 외엔 명소/카페 목록에서 골라.
+3. 절대 목록에 없는 실제 지명이나 가게 이름을 지어내지 마.
+4. 모든 슬롯(채워진 것 포함)에 대해 자연스럽고 구체적인 한 줄 추천 이유(note, 20~30자)를 새로 써줘.
+
+[이용 가능한 장소 목록 - 맛집/카페]
+${JSON.stringify(restaurants)}
+
+[이용 가능한 장소 목록 - 명소/숙소]
+${JSON.stringify(places)}
+
+[출력 형식] 아래 JSON만 출력해, 다른 설명 없이.
+{
+  "days": [
+    { "day": 1, "slots": [ {"id":"slot_1","name":"장소명","note":"한줄 이유"} ] }
+  ]
+}`;
+}
+
+function findItemByName(name) {
+  const { restaurants, places } = filterData();
+  return restaurants.find(r => r.name === name) || places.find(p => p.name === name) || null;
+}
+
+async function enhanceWithAI() {
+  const btn = document.getElementById('aiBtn');
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '✨ AI가 다듬는 중...';
+  try {
+    const sample = await window.claude.use("sample");
+    if (!sample) {
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+      showToast('AI 다듬기를 쓰려면 claude.ai에 로그인되어 있어야 해요. (로그인 없이도 계획표는 계속 쓰실 수 있어요!)');
+      return;
+    }
+    const prompt = buildPrompt();
+    const result = await sample.json(prompt, { modelTier: "default" });
+    (result.days || []).forEach(rd => {
+      const day = state.plan.find(d => d.day === rd.day);
+      if (!day) return;
+      (rd.slots || []).forEach(rs => {
+        const slot = day.slots.find(s => s.id === rs.id);
+        if (!slot) return;
+        if (!slot.item && rs.name) {
+          const found = findItemByName(rs.name);
+          if (found) slot.item = found;
+        }
+        if (slot.item && rs.note) slot.item = { ...slot.item, note: rs.note };
+      });
+    });
+    renderPlan();
+    btn.textContent = '✅ AI가 다듬었어요';
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+    showToast('AI 다듬기 중 문제가 생겼어요. 지금 계획표는 그대로 남아있어요.');
+  }
+}
+
+function showError(msg) {
+  document.getElementById('errorMsg').textContent = msg;
+  goTo('error');
+}
+
+const typeIcon = { "맛집":"🍽", "카페":"☕", "LP카페":"🎵", "명소":"📍", "숙소":"🏨", "기타":"✨" };
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+tryOfferResume();
+
+</script>
+</body>
+</html>
