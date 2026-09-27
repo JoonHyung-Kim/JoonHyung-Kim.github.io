@@ -526,7 +526,7 @@ function quickPick(dir) {
   const el = document.getElementById('quickResults');
   el.innerHTML = '';
   Object.keys(cats).forEach(catName => {
-    const items = [...cats[catName]].sort((a,b)=>priorityScore(a)-priorityScore(b)).slice(0, 5);
+    const items = [...cats[catName]].sort((a,b)=>combinedScore(a)-combinedScore(b)).slice(0, 5);
     if (items.length === 0) return;
     const box = document.createElement('div');
     box.style.marginTop = '18px';
@@ -720,6 +720,34 @@ function filterData() {
 const PRIORITY_RANK = { "필수": 0, "추천": 1, "선택": 2 };
 function priorityScore(p) { return PRIORITY_RANK[p.priority] ?? 3; }
 
+/* 인원수에 따라 같은 우선순위 안에서 순서를 살짝 조정 (필수>추천 등급 자체는 절대 안 바뀜) */
+const PEOPLE_KEYWORDS = {
+  "혼자":     { boost: ["1인","혼밥","혼술","작은","조용한"], penalty: ["단체","무제한","5명","가족","단체석"] },
+  "둘이":     { boost: ["커플","로맨틱","오션뷰","데이트","2인"], penalty: [] },
+  "3~4명":    { boost: ["가족","한상차림","세트","아이"], penalty: [] },
+  "5명 이상": { boost: ["무제한","단체","넓은","대형"], penalty: ["1인","단체석 불가"] },
+};
+function peopleAdjust(item) {
+  const kw = PEOPLE_KEYWORDS[state.people];
+  if (!kw) return 0;
+  const hay = `${item.note||''} ${item.menu||''} ${item.subcategory||''}`;
+  let score = 0;
+  kw.boost.forEach(k => { if (hay.includes(k)) score -= 1; });
+  kw.penalty.forEach(k => { if (hay.includes(k)) score += 1; });
+  return score;
+}
+function combinedScore(item) { return priorityScore(item) * 10 + peopleAdjust(item) + themeAdjust(item); }
+
+/* 테마(맛집/카페/자연·명소 무게)에 따라 같은 우선순위 안에서 해당 유형을 앞으로 */
+function themeAdjust(item) {
+  const t = typeOf(item);
+  let score = 0;
+  if (state.themes.includes('맛집') && t === '맛집') score -= 1;
+  if (state.themes.includes('카페') && (t === '카페' || t === 'LP카페')) score -= 1;
+  if (state.themes.includes('자연/명소') && t === '명소') score -= 1;
+  return score;
+}
+
 /* 메뉴/특징/평점/예약/주차를 한 줄 설명으로 조합 */
 function infoLine(item) {
   const parts = [];
@@ -780,7 +808,7 @@ function renderSelectResults() {
   const cats = categorize(restaurants, places);
   const resultsEl = document.getElementById('selectResults');
   resultsEl.innerHTML = '';
-  const items = [...cats[selectCategory]].filter(x => matchesSearch(x, searchQuery)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+  const items = [...cats[selectCategory]].filter(x => matchesSearch(x, searchQuery)).sort((a,b)=>combinedScore(a)-combinedScore(b));
   if (items.length === 0) {
     resultsEl.innerHTML = `<div style="font-size:13px; color:var(--text-dim); padding:12px 0;">검색 결과가 없어요.</div>`;
     return;
@@ -836,6 +864,9 @@ function defaultSlotTimes(dayIdx, dayCount) {
     { time:'20:30', hour:20.5 },
   ];
   let slots = base;
+  if (state.themes && state.themes.includes('여유롭게')) {
+    slots = slots.filter(s => s.time === '12:00' || s.time === '15:00' || s.time === '18:30');
+  }
   if (dayIdx === 0) slots = slots.filter(s => s.hour >= state.arrival - 0.6);
   if (dayIdx === dayCount - 1) slots = slots.filter(s => s.hour <= state.departure - 2);
   if (slots.length === 0) slots = [base[1]];
@@ -857,8 +888,8 @@ function initPlan() {
 function suggestRoute() {
   const { restaurants, places } = filterData();
   const bySel = (arr) => {
-    const sel = arr.filter(x => state.selected.has(x.name)).sort((a,b)=>priorityScore(a)-priorityScore(b));
-    const rest = arr.filter(x => !state.selected.has(x.name)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+    const sel = arr.filter(x => state.selected.has(x.name)).sort((a,b)=>combinedScore(a)-combinedScore(b));
+    const rest = arr.filter(x => !state.selected.has(x.name)).sort((a,b)=>combinedScore(a)-combinedScore(b));
     return [...sel, ...rest];
   };
   const attrPool = bySel(places.filter(p => p.category !== '숙소' && p.region !== '우도'));
@@ -907,7 +938,7 @@ function renderPickerResultsInto(list, cats) {
   const usedNames = new Set();
   state.plan.forEach(d => d.slots.forEach(s => { if (s.item) usedNames.add(s.item.name); }));
   list.innerHTML = '';
-  const items = [...cats[pickerCategory]].filter(x => matchesSearch(x, pickerSearchQuery)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+  const items = [...cats[pickerCategory]].filter(x => matchesSearch(x, pickerSearchQuery)).sort((a,b)=>combinedScore(a)-combinedScore(b));
   if (items.length === 0) {
     list.innerHTML = `<div style="font-size:13px; color:var(--text-dim); padding:8px 0;">검색 결과가 없어요.</div>`;
     return;
@@ -1100,8 +1131,8 @@ function autoFillEmpty() {
   const { restaurants, places } = filterData();
   const used = new Set();
   state.plan.forEach(d => d.slots.forEach(s => { if (s.item) used.add(s.item.name); }));
-  const attrPool = places.filter(p => p.category !== '숙소' && p.region !== '우도' && !used.has(p.name)).sort((a,b)=>priorityScore(a)-priorityScore(b));
-  const mealPool = restaurants.filter(r => r.region !== '우도' && !used.has(r.name)).sort((a,b)=>priorityScore(a)-priorityScore(b));
+  const attrPool = places.filter(p => p.category !== '숙소' && p.region !== '우도' && !used.has(p.name)).sort((a,b)=>combinedScore(a)-combinedScore(b));
+  const mealPool = restaurants.filter(r => r.region !== '우도' && !used.has(r.name)).sort((a,b)=>combinedScore(a)-combinedScore(b));
   let ai=0, mi=0;
   state.plan.forEach(day => {
     day.slots.forEach(slot => {
